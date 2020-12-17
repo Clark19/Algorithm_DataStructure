@@ -47,7 +47,7 @@ def solution2(participant, completion):
             return participant[i]
     return participant[len(participant)-1]
 
-# 간단구현 & 성능도 좋음. collections.Counter 클래스에 대해 알아야 풀 수 있음.
+# Pythonic, 간단구현 & 성능도 좋음. collections.Counter 클래스에 대해 알아야 풀 수 있음.
 # from collections import Counter
 def solution3(participant, completion):
     answer = Counter(participant) - Counter(completion)
