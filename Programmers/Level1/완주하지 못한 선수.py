@@ -1,6 +1,13 @@
 # 완주하지 못한 선수 - https://programmers.co.kr/learn/courses/30/lessons/42576?language=python3
 from collections import Counter
 
+""" 입출력 예 == Test Data
+participant	                             completion	                        return
+[leo, kiki, eden]	                     [eden, kiki]	                    leo
+[marina, josipa, nikola, vinko, filipa]	 [josipa, filipa, marina, nikola]	vinko
+[mislav, stanko, mislav, ana]	         [stanko, ana, mislav]	            mislav"
+"""
+
 # 느린 브루트 포스 방식(직접 구현): 채점 기준 시간 초과
 def solution0(participant, completion):
     answer = ''
