@@ -43,3 +43,13 @@ def solution(v):
     sa = list(sa)
     answer = [sa[0][0], sa[0][1]]
     return answer
+
+lst1 = [[1, 4], [3, 4], [3, 10]]
+lst2 = [[1, 1], [2, 2], [1, 2]]
+lst3 = [2,3,4,5,7,5,3,2,9,8,5]
+print('count():', lst3.count(0))
+print('index():', lst3.index(4))
+
+x, y = map(int, input().split())
+print(x, y)
+
