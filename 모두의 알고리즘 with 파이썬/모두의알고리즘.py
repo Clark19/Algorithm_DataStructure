@@ -458,3 +458,52 @@ def ins_sort(a):
 d = [2, 4, 5, 1, 3]
 ins_sort(d)
 print(d)
+
+
+"""  < 병합 정렬 >
+쉽게 설명한 병합 정렬 알고리즘 | p.99
+병합 정렬을 사용하여 리스트 안의 자료를 작은 수부터 큰 수 순서로 배열하는 알고리즘을 생각해 봅시다.
+
+정렬할 리스트의 자료 개수가 한 개 이하이면 정렬할 필요가 없습니다.
+전체 리스트를 절반으로 나눠 각각 재귀 호출을 통해 병합 정렬을 합니다.
+두 그룹의 첫 번째 값을 비교하여 작은 값을 빼내 결과 리스트에 넣는 과정을 반복합니다.
+하나의 리스트의 자료가 모두 사라지면 나머지 리스트의 자료를 모두 결과 리스트에 옮깁니다.
+위 알고리즘을 참고하여 주어진 리스트 안의 자료를 작은 수부터 큰 수 순서로 배열하여 출력하는 프로그램을 작성해 봅시다.
+
+이렇게 해보세요!
+책 p.100, p.101을 참고해서 풀어보세요!
+1. 리스트 a를 매개 변수로 받아 병합 정렬을 하여 리스트 result에 저장해 반환하는 함수 merge_sort를 작성하세요.
+※ append()함수와 pop() 함수를 사용해야 합니다.
+실행 결과 : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+"""
+
+
+# 쉽게 설명한 병합 정렬
+# 입력: 리스트 a
+# 출력: 정렬된 새 리스트
+# 1번을 해보세요!
+def merge_sort(a):
+    n = len(a)
+    if n <= 1:
+        return a
+
+    result = []
+    mid_idx = n // 2
+    left = merge_sort(a[:mid_idx])
+    right = merge_sort(a[mid_idx:])
+
+    while left and right:
+        if left[0] <= right[0]:
+            result.append(left.pop(0))
+        else:
+            result.append(right.pop(0))
+
+    while left:
+        result.append(left.pop(0))
+    while right:
+        result.append(right.pop(0))
+
+    return result
+
+d = [6, 8, 3, 9, 10, 1, 2, 4, 7, 5]
+print(merge_sort(d))
