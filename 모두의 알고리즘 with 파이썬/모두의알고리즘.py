@@ -506,4 +506,5 @@ def merge_sort(a):
     return result
 
 d = [6, 8, 3, 9, 10, 1, 2, 4, 7, 5]
-print(merge_sort(d))
+print('단순 병합 정렬 입력:', d)
+print('단순 병합 정렬 결과:', merge_sort(d))
