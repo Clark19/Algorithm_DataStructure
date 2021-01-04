@@ -559,3 +559,51 @@ t = [5, 3, 7, 2]
 print('\n일반 병합 정렬 입력:', d)
 merge_sort(d)
 print('일반 병합 정렬 결과:', d)
+
+
+
+""" < 퀵 정렬 Quick sort - 재귀(Recursive) 호출 이용 >
+쉽게 설명한 퀵 정렬 알고리즘 | p.109
+주어진 리스트 안의 자료를 작은 수부터 큰 수 순서로 배열하는 퀵 정렬 알고리즘을 생각해 봅시다.
+1.리스트에서 기준 값을 하나 정합니다.(편의상 정렬할 리스트의 맨 마지막을 기준 값으로 정하였습니다.)
+2.기준 값보다 작은 값을 저장할 리스트와 큰 값을 저장할 리스트를 만듭니다.
+3.리스트에 있는 자료들을 기준 값과 차례로 비교하여 작은 값 저장 리스트와 큰 값 저장 리스트로 분리하여 넣습니다.
+4.재귀 호출을 이용하여 두 리스트를 정렬하고 작은 값 저장 리스트와 기준 값, 큰 값 저장 리스트 순서대로 붙이면 정렬이 완료 됩니다.
+위 알고리즘을 참고하여 주어진 리스트 안의 자료를 작은 수부터 큰 수 순서로 배열하여 출력하는 프로그램을 작성해 봅시다.
+
+이렇게 해보세요!
+책 p.110, p.111을 참고해서 풀어보세요!
+1. 리스트 a를 매개변수로 받아 퀵 정렬을 하여 정렬된 리스트의 합을 반환하는 함수 quick_sort를 작성하세요.
+실행 결과: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+"""
+# 쉽게 설명한 퀵 정렬
+# 입력: 리스트 a
+# 출력: 정렬된 새 리스트
+# 1번을 해보세요!
+def get_criterion(a):
+    return a[-1]
+
+def quick_sort(a):
+    n = len(a)
+    if n < 2:
+        return a
+    smaller = []
+    larger = []
+    criterion_value = get_criterion(a)
+
+    for i in range(n-1):
+        if a[i] < criterion_value:
+            smaller.append(a[i])
+        else:
+            larger.append(a[i])
+
+    # quick_sort(smaller)
+    # quick_sort(larger)
+
+    criterion = [criterion_value]
+    result = quick_sort(smaller) + criterion + quick_sort(larger)
+
+d = [6, 8, 3, 9, 10, 1, 2, 4, 7, 5]
+print('\n단순 퀵 정렬 입력:', d)
+quick_sort(d)
+print('단순 퀵 정렬 결과:', d)
