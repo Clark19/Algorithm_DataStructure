@@ -287,7 +287,7 @@ print(search_list2(v, 900)) #[]
 
 # 문제8. 선택 정렬 - https://academy.elice.io/courses/5005/lectures/36236/materials/2
 """
-문 8-1: 쉽게 설명한 선택 정렬 알고리즘 | p.84
+문 8-1: 쉽게 설명한 선택 정렬 알고리즘 | p.84  : O(n^2)
 주어진 리스트 안의 자료를 작은 수부터 큰 수 순서로 배열하는 선택 정렬 알고리즘을 생각해 봅시다.
 
 리스트 a에 아직 자료가 남아 있다면 → while a:
@@ -377,13 +377,13 @@ def sel_sort(a):
         print(a)
 
 d = [2, 4, 5, 1, 3]
-print(d)
+print('\nSelection Sort input: ', d)
 sel_sort(d)
-print('Selection Sort: ', d)
+print('Selection Sort output: ', d)
 
 
 
-""" < 삽입 정렬 = Insertion Sort >
+""" < 삽입 정렬 = Insertion Sort > : O(n^2)
 쉽게 설명한 삽입 정렬 알고리즘 | p.92
 삽입 정렬을 사용하여 리스트 안의 자료를 작은 수부터 큰 수 순서로 배열하는 알고리즘을 생각해 봅시다.
 
@@ -448,16 +448,45 @@ print(ins_sort(d))
 def ins_sort(a):
     n = len(a)
     for i in range(1, n):
-        key = a[i]
+        ins_data = a[i]
         j = i - 1
-        while j >= 0 and a[j] > key:
-            a[j + 1] = a[j]
+        while j >= 0 and a[j] > ins_data:
+            a[j+1] = a[j]
             j -= 1
-        a[j + 1] = key
+        a[j+1] = ins_data
+        print(a)
 
 d = [2, 4, 5, 1, 3]
+print(f'\n삽입 정렬 입력: {d}')
 ins_sort(d)
-print(d)
+print(f'삽입 정렬 출력: {d}')
+
+""" 선택 정렬과 삽입 정렬 차이
+* 공통점: 앞에 정렬된 구간과 뒤의 미정렬 구간 존재. 앞의 정렬 구간은 점점 넓어지고, 뒤의 미정렬 구간은 점점 작아지는 방식
+* 차이점: 
+  - 선택 정렬은 한단계마다 미정렬 구간을 풀탐색으로 제일 작은 값 찾아서, 정렬 구간의 제일 뒷 부분에 놔두고, 이 위치는 정렬하는 동안 바뀌지 않음.
+  - 삽입 정렬은 한단계마다 미정렬 구간의 제일 앞 값을 삽입할 데이터로 선정 후, 정렬구간의 뒷부분부터 비교해 정렬구간의 뒷값들을 이동시킨다.
+     정렬구간에서 비교하다 우선순위가 높은 값을 만나면 그 바로뒤에 삽입 함.
+     즉, 선택 정렬과 다르게 삽입 정렬은 정렬 구간의 정렬 데이터의 위치가 변함. 비교하면서 정렬을 위함 이동을 계속 하기 때문임.
+  - 버블 정렬은 앞값과 뒷값 비교하면서 비교하자마자 바로 바꾸면서 제일 뒤로, 제일 큰(우선순위가 낮은) 값을 거품처럼 떠오르듯 놔두는 방식임. 
+"""
+
+""" < Bubble sort > : 시간 복잡도 O(n^2) <= (n-1) + (n-2) + ... + 2 + 1의 합 = {(n-1)+1} x (n-1) / 2 = n(n-1) / 2 = n^2 - n / 2 => O(n^2)
+ : 오름차순 정렬시 큰 한단계 완료시 마다 제일 큰 수가 제을 우측으로 거품처럼 떠오르듯 정렬 된다고 해서 버블 정렬이라고 함.
+ 연습문제 11-1
+"""
+def bubble_sort(a):
+    n = len(a)
+    for i in range(n-1):
+        for j in range(n-1-i):
+            if a[j] > a[j+1]:
+                a[j], a[j+1] = a[j+1], a[j]
+        print(a)
+
+d = [6, 8, 3, 9, 10, 1, 2, 4, 7, 5]
+print('\n버블 정렬 입력:', d)
+bubble_sort(d)
+print('버블 정렬 결과:', d)
 
 
 """  < 병합 정렬 - 재귀 호출 이용>
@@ -553,6 +582,7 @@ def merge_sort(a):
         a[ia] = r[i2]
         i2 += 1
         ia += 1
+    print(a)
 
 d = [6, 8, 3, 9, 10, 1, 2, 4, 7, 5]
 t = [5, 3, 7, 2]
@@ -587,23 +617,26 @@ def quick_sort(a):
     n = len(a)
     if n < 2:
         return a
+    criterion_value = get_criterion(a)
+    # print('len:',n, 'criterion:', criterion_value)
     smaller = []
     larger = []
-    criterion_value = get_criterion(a)
-
-    for i in range(n-1):
+    for i in range(0, n-1):
         if a[i] < criterion_value:
             smaller.append(a[i])
         else:
             larger.append(a[i])
 
-    # quick_sort(smaller)
-    # quick_sort(larger)
-
     criterion = [criterion_value]
-    result = quick_sort(smaller) + criterion + quick_sort(larger)
+    s = quick_sort(smaller)
+    l = quick_sort(larger)
+    result = s + criterion + l
+    # print(result)
+    return result
 
 d = [6, 8, 3, 9, 10, 1, 2, 4, 7, 5]
 print('\n단순 퀵 정렬 입력:', d)
-quick_sort(d)
-print('단순 퀵 정렬 결과:', d)
+print('단순 퀵 정렬 결과:', quick_sort(d))
+
+
+
