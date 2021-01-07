@@ -489,7 +489,11 @@ bubble_sort(d)
 print('버블 정렬 결과:', d)
 
 
-"""  < 병합 정렬 - 재귀 호출 이용>
+"""  < 병합 정렬 - 대표적인 Divide And Conquer 전략 이용 알고리즘. 재귀 호출 이용> :
+1단계 분할(Divide)  : 해결이 용이한 단계까지 문제를 분할. 보통 데이터 길이가 1 또는 0일때 까지
+2단계 정복(Conquer) : 해결이 용이한 수준까지 분할된 문제를 해결.
+3단계 결합(Combine) : 분할해서 해결한 결과를 결합하여 마무리. 정복과 결합이 같이 이뤄지기도 함.
+
 쉽게 설명한 병합 정렬 알고리즘 | p.99
 병합 정렬을 사용하여 리스트 안의 자료를 작은 수부터 큰 수 순서로 배열하는 알고리즘을 생각해 봅시다.
 1.정렬할 리스트의 자료 개수가 한 개 이하이면 정렬할 필요가 없습니다.
@@ -555,32 +559,31 @@ def merge_sort(a):
     if n <= 1:
         return
 
+    # divide
     mid_idx = n // 2
     l = a[:mid_idx]
     r = a[mid_idx:]
     merge_sort(l)
     merge_sort(r)
 
-    i1 = 0
-    i2 = 0
-    ia = 0
-    while i1 < len(l) and i2 < len(r):
-        if l[i1] < r[i2]:
-            a[ia] = l[i1]
-            i1 += 1
-            ia += 1
+    # comquer and combine(merge)
+    il, ir, ia = 0, 0, 0
+    while il < len(l) and ir < len(r):
+        if l[il] < r[ir]:
+            a[ia] = l[il]
+            il += 1
         else:
-            a[ia] = r[i2]
-            i2 += 1
-            ia += 1
-
-    while i1 < len(l):
-        a[ia] = l[i1]
-        i1 += 1
+            a[ia] = r[ir]
+            ir += 1
         ia += 1
-    while i2 < len(r):
-        a[ia] = r[i2]
-        i2 += 1
+
+    while il < len(l):
+        a[ia] = l[il]
+        il += 1
+        ia += 1
+    while ir < len(r):
+        a[ia] = r[ir]
+        ir += 1
         ia += 1
     print(a)
 
@@ -639,4 +642,48 @@ print('\n단순 퀵 정렬 입력:', d)
 print('단순 퀵 정렬 결과:', quick_sort(d))
 
 
+# 퀵 정렬 일반 버전
+# 입력: 리스트 a
+# 출력: 없음(입력으로 주어진 a가 정렬됨)
+# 리스트 a의 어디부터(start) 어디까지(end)가 정렬 대상인지
+# 범위를 지정하여 정렬하는 재귀 호출 함수
+# 1번을 해보세요!
+def quick_sort_sub(a, start, end):
+    if end - start <= 0:
+        return
+
+    pivot_value = a[end]
+    low = start
+    high = end - 1
+    # print('\ninput a:', a[start:end+1])
+    # print(f'start:{start}, end:{end}, low:{low}, high:{high}, pivotValue:{pivot_value}')
+    while low <= high:
+        while a[low] <= pivot_value and low <= high:
+            low += 1
+        while a[high] > pivot_value and high >= 0:
+            high -= 1
+        if (low <= high):
+            a[low], a[high] = a[high], a[low]
+            # print(f'a[{low}]:{a[high]}, a[{high}]:{a[low]}, swapped a:', a)
+
+    pivot_idx = low - 1
+    a[low], a[end] = a[end], a[low]
+    # print(f'low:{low}, pivotIdx:{pivot_idx}, a[{pivot_idx}]:{a[pivot_idx]}')
+
+    # print(f'L quick_sort_sub(a, start:{start}, pivot_idx:{pivot_idx})')
+    quick_sort_sub(a, start, pivot_idx)
+
+    # print(f'R quick_sort_sub(a, pivot_idx+1:{pivot_idx+1}, end:{end})')
+    quick_sort_sub(a, pivot_idx + 1, end)
+    print(a)
+
+# 리스트 전체(0 ~ len(a)-1)를 대상으로 재귀 호출 함수 호출
+def quick_sort(a):
+    quick_sort_sub(a, 0, len(a) - 1)
+
+
+d = [6, 8, 3, 9, 10, 1, 2, 4, 7, 5]
+print('\n일반 퀵 정렬 입력:', d)
+quick_sort(d)
+print('일반 퀵 정렬 결과:', d)
 
