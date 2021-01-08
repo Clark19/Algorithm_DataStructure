@@ -585,13 +585,76 @@ def merge_sort(a):
         a[ia] = r[ir]
         ir += 1
         ia += 1
-    print(a)
+    # print(a)
+
+def mergeTwoArea(a, startIdx, midIdx, endIdx):
+    # for i in range(startIdx+1, endIdx):
+    #     insData = a[i]
+    #     j = i - 1
+    #     while j >= 0 and a[j] > insData:
+    #         a[j+1] = a[j]
+    #         j -= 1
+    #     a[j+1] = insData
+    sortedList = []
+    il, ir = startIdx, midIdx
+    while il < midIdx and ir < endIdx:
+        if a[il] < a[ir]:
+            sortedList.append(a[il])
+            il += 1
+        else:
+            sortedList.append(a[ir])
+            ir += 1
+    while il < midIdx:
+        sortedList.append(a[il])
+        il += 1
+    while ir < endIdx:
+        sortedList.append(a[ir])
+        ir += 1
+
+    if len(sortedList) != endIdx-startIdx:
+        print('Length Error:', len(sortedList), ' !=', endIdx-startIdx)
+        exit(0)
+    for i, value in enumerate(sortedList):
+        a[startIdx+i] = value
+    # print(a[startIdx : endIdx])
+
+def merge_sort2(a, startIdx, endIdx):
+    n = endIdx - startIdx
+    # print(startIdx, endIdx, n)
+    if n <= 1:
+        return
+
+    # divide
+    mid_idx = n // 2 + startIdx
+    merge_sort2(a, startIdx, mid_idx)
+    merge_sort2(a, mid_idx, endIdx)
+
+    # comquer and combine(merge)
+    mergeTwoArea(a, startIdx, mid_idx, endIdx)
 
 d = [6, 8, 3, 9, 10, 1, 2, 4, 7, 5]
 t = [5, 3, 7, 2]
-print('\n일반 병합 정렬 입력:', d)
-merge_sort(d)
-print('일반 병합 정렬 결과:', d)
+import random
+import time
+MAX_NUM = 1000000
+d2 = []
+for num in range(1, MAX_NUM):
+    d2.append(random.randint(1, MAX_NUM))
+d3 = list.copy(d2)
+
+# print('\n일반 병합 정렬 입력:', d2)
+start = time.time()
+merge_sort(d2)
+end = time.time()
+# print('일반 병합 정렬 결과:', d2)
+print('\nmerge_sort 실행시간:', end-start)
+
+# print('\n일반 병합 정렬 입력:', d3)
+start = time.time()
+merge_sort2(d3, 0, len(d3))
+end = time.time()
+# print('일반 병합 정렬 결과:', d3)
+print('\nmerge_sort2 실행시간:', end-start)
 
 
 
@@ -638,8 +701,8 @@ def quick_sort(a):
     return result
 
 d = [6, 8, 3, 9, 10, 1, 2, 4, 7, 5]
-print('\n단순 퀵 정렬 입력:', d)
-print('단순 퀵 정렬 결과:', quick_sort(d))
+# print('\n단순 퀵 정렬 입력:', d)
+# print('단순 퀵 정렬 결과:', quick_sort(d))
 
 
 # 퀵 정렬 일반 버전
@@ -683,7 +746,7 @@ def quick_sort(a):
 
 
 d = [6, 8, 3, 9, 10, 1, 2, 4, 7, 5]
-print('\n일반 퀵 정렬 입력:', d)
-quick_sort(d)
-print('일반 퀵 정렬 결과:', d)
+# print('\n일반 퀵 정렬 입력:', d)
+# quick_sort(d)
+# print('일반 퀵 정렬 결과:', d)
 
