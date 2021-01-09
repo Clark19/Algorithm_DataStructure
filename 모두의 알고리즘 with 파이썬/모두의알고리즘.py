@@ -567,6 +567,11 @@ def merge_sort(a):
     merge_sort(r)
 
     # comquer and combine(merge)
+    mergeTwoArea(a, l, r)
+    # print(a)
+
+# 원본 배열 a의 반을 좌우로 나눈 새로운 배열 생성해서 원본에 복사(대체)해 합치는 방식
+def mergeTwoArea(a, l, r):
     il, ir, ia = 0, 0, 0
     while il < len(l) and ir < len(r):
         if l[il] < r[ir]:
@@ -576,7 +581,6 @@ def merge_sort(a):
             a[ia] = r[ir]
             ir += 1
         ia += 1
-
     while il < len(l):
         a[ia] = l[il]
         il += 1
@@ -585,16 +589,25 @@ def merge_sort(a):
         a[ia] = r[ir]
         ir += 1
         ia += 1
-    # print(a)
 
-def mergeTwoArea(a, startIdx, midIdx, endIdx):
-    # for i in range(startIdx+1, endIdx):
-    #     insData = a[i]
-    #     j = i - 1
-    #     while j >= 0 and a[j] > insData:
-    #         a[j+1] = a[j]
-    #         j -= 1
-    #     a[j+1] = insData
+
+def merge_sort2(a, startIdx, endIdx):
+    n = endIdx - startIdx
+    # print(startIdx, endIdx, n)
+    if n <= 1:
+        return
+
+    # divide
+    midIdx = n // 2 + startIdx
+    merge_sort2(a, startIdx, midIdx)
+    merge_sort2(a, midIdx, endIdx)
+
+    # comquer and combine(merge)
+    mergeTwoArea2(a, startIdx, midIdx, endIdx)
+
+# mergeTwoArea 방식보다 mergeTwoArea2 방식이 살짝 좀더 느린거 같음.
+# sortedList란 리스트 새로 만들어 원본 a 배열에 다시 복사(대체)해 합치는 방식
+def mergeTwoArea2(a, startIdx, midIdx, endIdx):
     sortedList = []
     il, ir = startIdx, midIdx
     while il < midIdx and ir < endIdx:
@@ -618,43 +631,39 @@ def mergeTwoArea(a, startIdx, midIdx, endIdx):
         a[startIdx+i] = value
     # print(a[startIdx : endIdx])
 
-def merge_sort2(a, startIdx, endIdx):
-    n = endIdx - startIdx
-    # print(startIdx, endIdx, n)
-    if n <= 1:
-        return
-
-    # divide
-    mid_idx = n // 2 + startIdx
-    merge_sort2(a, startIdx, mid_idx)
-    merge_sort2(a, mid_idx, endIdx)
-
-    # comquer and combine(merge)
-    mergeTwoArea(a, startIdx, mid_idx, endIdx)
-
 d = [6, 8, 3, 9, 10, 1, 2, 4, 7, 5]
+d2 = [6, 8, 3, 9, 10, 1, 2, 4, 7, 5]
 t = [5, 3, 7, 2]
 import random
 import time
-MAX_NUM = 1000000
-d2 = []
+MAX_NUM = 1000
+testData = []
 for num in range(1, MAX_NUM):
-    d2.append(random.randint(1, MAX_NUM))
-d3 = list.copy(d2)
+    testData.append(random.randint(1, MAX_NUM))
+testData2 = list.copy(testData)
+testData3 = list.copy(testData)
+testData4 = list.copy(testData)
 
-# print('\n일반 병합 정렬 입력:', d2)
-start = time.time()
-merge_sort(d2)
-end = time.time()
-# print('일반 병합 정렬 결과:', d2)
-print('\nmerge_sort 실행시간:', end-start)
+print('\n일반 병합 정렬 입력:', d)
+merge_sort(d)
+print('일반 병합 정렬 결과:', d)
 
-# print('\n일반 병합 정렬 입력:', d3)
-start = time.time()
-merge_sort2(d3, 0, len(d3))
-end = time.time()
-# print('일반 병합 정렬 결과:', d3)
-print('\nmerge_sort2 실행시간:', end-start)
+startTime = time.time()
+merge_sort(testData)
+endTime = time.time()
+execTime = endTime - startTime
+print('merge_sort 실행시간:', execTime)
+
+
+print('\n일반 병합 정렬 입력:', d2)
+merge_sort2(d2, 0, len(d2))
+print('일반 병합 정렬 결과:', d2)
+
+startTime = time.time()
+merge_sort2(testData2, 0, len(testData2))
+endTime = time.time()
+execTime = endTime - startTime
+print('merge_sort2 실행시간:', execTime)
 
 
 
@@ -676,24 +685,24 @@ print('\nmerge_sort2 실행시간:', end-start)
 # 입력: 리스트 a
 # 출력: 정렬된 새 리스트
 # 1번을 해보세요!
-def get_criterion(a):
+def getPivot(a):
     return a[-1]
 
 def quick_sort(a):
     n = len(a)
     if n < 2:
         return a
-    criterion_value = get_criterion(a)
+    pivotValue = getPivot(a)
     # print('len:',n, 'criterion:', criterion_value)
     smaller = []
     larger = []
     for i in range(0, n-1):
-        if a[i] < criterion_value:
+        if a[i] < pivotValue:
             smaller.append(a[i])
         else:
             larger.append(a[i])
 
-    criterion = [criterion_value]
+    criterion = [pivotValue]
     s = quick_sort(smaller)
     l = quick_sort(larger)
     result = s + criterion + l
@@ -701,8 +710,8 @@ def quick_sort(a):
     return result
 
 d = [6, 8, 3, 9, 10, 1, 2, 4, 7, 5]
-# print('\n단순 퀵 정렬 입력:', d)
-# print('단순 퀵 정렬 결과:', quick_sort(d))
+print('\n단순 퀵 정렬 입력:', d)
+print('단순 퀵 정렬 결과:', quick_sort(d))
 
 
 # 퀵 정렬 일반 버전
@@ -711,7 +720,7 @@ d = [6, 8, 3, 9, 10, 1, 2, 4, 7, 5]
 # 리스트 a의 어디부터(start) 어디까지(end)가 정렬 대상인지
 # 범위를 지정하여 정렬하는 재귀 호출 함수
 # 1번을 해보세요!
-def quick_sort_sub(a, start, end):
+def quick_sort_sub(a, start, end): # '모두의 알고리즘 with 파이썬' 방식 구현
     if end - start <= 0:
         return
 
@@ -723,7 +732,7 @@ def quick_sort_sub(a, start, end):
     while low <= high:
         while a[low] <= pivot_value and low <= high:
             low += 1
-        while a[high] > pivot_value and high >= 0:
+        while a[high] > pivot_value and high >= low:
             high -= 1
         if (low <= high):
             a[low], a[high] = a[high], a[low]
@@ -731,22 +740,110 @@ def quick_sort_sub(a, start, end):
 
     pivot_idx = low - 1
     a[low], a[end] = a[end], a[low]
-    # print(f'low:{low}, pivotIdx:{pivot_idx}, a[{pivot_idx}]:{a[pivot_idx]}')
 
-    # print(f'L quick_sort_sub(a, start:{start}, pivot_idx:{pivot_idx})')
     quick_sort_sub(a, start, pivot_idx)
-
-    # print(f'R quick_sort_sub(a, pivot_idx+1:{pivot_idx+1}, end:{end})')
     quick_sort_sub(a, pivot_idx + 1, end)
-    print(a)
+    # print(a)
 
 # 리스트 전체(0 ~ len(a)-1)를 대상으로 재귀 호출 함수 호출
 def quick_sort(a):
     quick_sort_sub(a, 0, len(a) - 1)
 
 
-d = [6, 8, 3, 9, 10, 1, 2, 4, 7, 5]
-# print('\n일반 퀵 정렬 입력:', d)
-# quick_sort(d)
-# print('일반 퀵 정렬 결과:', d)
 
+# '윤성우의 열혈 자료구조 using C' 방식 + 내방식(getPivot()) 구현 퀵 정렬
+def quickSort(a, startIdx, endIdx):
+    if startIdx >= endIdx: return
+
+    pivotIdx = partition(a, startIdx, endIdx)
+    quickSort(a, startIdx, pivotIdx-1)
+    quickSort(a, pivotIdx+1, endIdx)
+    # print(a)
+
+def getPivotIdx(a, startIdx, endIdx):
+    """
+    퀵 정렬에서 Pivot 값은 중간 값에 가까운 값으로 정해야 좋은 성능이 나온다. 내가 직접 구현한 거.
+    :param a: 리스트
+    :return: a 리스트의 값이 3개 이상일때 세개의 값 중 중간 값의 인덱스 리턴
+    """
+    n = endIdx - startIdx
+    if n < 0: return
+    if n == 0: return startIdx
+    if n == 1: return endIdx if a[endIdx] > a[startIdx] else startIdx
+
+    l = [a[startIdx], a[n//2 + startIdx], a[endIdx]]
+    MID_VALUE = sum(l) - min(l) - max(l)
+    pivotIdx = None
+    if MID_VALUE == a[startIdx]:
+        pivotIdx = startIdx
+    elif MID_VALUE == a[n//2 + startIdx]:
+        pivotIdx = n//2 + startIdx
+    elif MID_VALUE == a[endIdx]:
+        pivotIdx = endIdx
+    return pivotIdx
+
+def partition(a, startIdx, endIdx):
+    n = endIdx - startIdx
+    if n <= 0: return startIdx
+
+    PIVOT_IDX = getPivotIdx(a, startIdx, endIdx)
+    PIVOT_VALUE = a[PIVOT_IDX]
+    if PIVOT_IDX == n // 2 + startIdx:
+        a[PIVOT_IDX], a[endIdx] = a[endIdx], a[PIVOT_IDX]
+        PIVOT_IDX = endIdx
+    low = startIdx
+    high = PIVOT_IDX - 1
+    if PIVOT_IDX == startIdx:
+        low = startIdx + 1
+        high = endIdx
+
+    while low <= high:
+        while low <= high and a[low] <= PIVOT_VALUE:
+            low += 1
+        while low <= high and a[high] >= PIVOT_VALUE:
+            high -= 1
+        if low < high:
+            a[low], a[high] = a[high], a[low]
+    if PIVOT_IDX == startIdx:
+        a[high], a[PIVOT_IDX] = a[PIVOT_IDX], a[high]
+        PIVOT_IDX = high
+    else: # if pivotIdx == endIdx or pivotIdx == n//2 + startIdx
+        if low != PIVOT_IDX:
+            a[low], a[PIVOT_IDX] = a[PIVOT_IDX], a[low]
+            PIVOT_IDX = low
+
+    return PIVOT_IDX # low
+
+d = [6, 8, 3, 9, 10, 1, 2, 4, 7, 5]
+# d = [3,3,3]
+print('\n일반 퀵 정렬 입력:', d)
+quick_sort(d)
+print('일반 퀵 정렬 결과:', d)
+
+startTime = time.time()
+quick_sort(testData3)
+endTime = time.time()
+exectime = endTime - startTime
+print('일반 퀵 정렬 시간(모두의 알고리즘 버전)', exectime)
+
+
+d = [6, 8, 3, 9, 10, 1, 2, 4, 7, 5]
+# d = [3,3,3]
+print('\n일반 퀵 정렬 입력:', d)
+quickSort(d, 0, len(d)-1)
+print('일반 퀵 정렬 결과:', d)
+
+startTime = time.time()
+quickSort(testData4, 0, len(testData4)-1)
+endTime = time.time()
+exectime = endTime - startTime
+print('일반 퀵 정렬 시간(열혈 자료구조 버전):', exectime)
+
+""" Quick Sort와 Merge Sort 비교
+* 공통점: 둘다 Divide and Conquer 전략. 둘다 평균 Time Complexity는 O(nlogn)으로 좋은 편이다.
+* 차이점:
+ - 퀵 정렬은 병합 정렬과 다르게 기준값(pivot idx or value)을 정한후, 기준갑 기준으로 양쪽으로 대략 정렬하는 방식.
+   반면에 병합정렬은 무조건 반씩 나눈 후 정렬하면서 합치는(병합) 방식  
+ - 퀵 정렬시 데이터가 이미 정렬 되어있고 기준값(Pivot)이 한쪽 끝 값으로 계속 정해지면 최악의 성능은 O(n^2)이다.
+   그러나 중앙 값으로 pivot 을 설정하는 것은 어렵지 않기 때문에 평균 성능이 퀵정렬의 성능이라고 보면 됨.
+"""
