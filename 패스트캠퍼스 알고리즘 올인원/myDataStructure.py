@@ -235,6 +235,8 @@ print()
 
 ''' Tree 트리 (그래프의 일종)
 '''
+from queue import Queue
+
 # 트리 구조에서 사용할 버텍스/노드(Vertex or Node)
 class Vertex :
   def __init__(self, data):
@@ -246,7 +248,7 @@ class Vertex :
     self.left = left
     self.right = right
 
-  # 전위순회 결과 리스트로 반환
+  # 전위 순회 결과 리스트로 반환
   def preorder(self) :
     result = []
     result += [self.data]
@@ -256,33 +258,69 @@ class Vertex :
         result += self.right.preorder()
     return result
 
-  # 중위순회 결과 리스트로 반환
+  # 중위 순회 결과 리스트로 반환
   def inorder(self) :
     result = []
     if self.left != None :
-        result += self.left.preorder()
+        result += self.left.inorder()
     result += [self.data]
     if self.right != None :
-        result += self.right.preorder()
+        result += self.right.inorder()
     return result
 
-  # 후위순회 결과 리스트로 반환
+  # 후위 순회 결과 리스트로 반환
   def postorder(self) :
     result = []
     if self.left != None :
-        result += self.left.preorder()
+        result += self.left.postorder()
     if self.right != None :
-        result += self.right.preorder()
+        result += self.right.postorder()
     result += [self.data]
     return result
 
+
+# BFS 탐색(깊이 우선 탐색) 결과 리스트로 반환
+def BFS(tree):
+  q = Queue()
+  result = []
+
+  q.put(tree)
+  while len(q.queue) > 0 :
+    curNode = q.get()
+    if curNode == None :
+      continue
+
+    result.append(curNode.data)
+    q.put(curNode.left)
+    q.put(curNode.right)
+
+  return result
+
 def test_tree() :
-  # global root
+  # 트리 생성
   root = Vertex(1)
-  root.add(Vertex(2), Vertex(3))
+  root.left = Vertex(2)
+  root.right = Vertex(3)
+  vtx1 = Vertex(4)
+  vtx2 = Vertex(5)
+
+  vtx = root.left
+  vtx.left = vtx1
+  vtx.right = vtx2
+
+  vtx1 = Vertex(6)
+  vtx2 = Vertex(7)
+  vtx = root.right
+  vtx.left = vtx1
+  vtx.right = vtx2
+
+
+  print('트리 DFS 순회')
   print(root.preorder())
   print(root.inorder())
   print(root.postorder())
+  print('트리 BFS 순회')
+  print(BFS(root))
 
 
 test_tree()
