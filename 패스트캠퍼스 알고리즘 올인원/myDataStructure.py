@@ -230,3 +230,59 @@ print()
 # dList.delete(6)
 # dList.print()
 # print()
+
+
+
+''' Tree 트리 (그래프의 일종)
+'''
+# 트리 구조에서 사용할 버텍스/노드(Vertex or Node)
+class Vertex :
+  def __init__(self, data):
+    self.data = data
+    self.left = None
+    self.right = None
+
+  def add(self, left, right):
+    self.left = left
+    self.right = right
+
+  # 전위순회 결과 리스트로 반환
+  def preorder(self) :
+    result = []
+    result += [self.data]
+    if self.left != None :
+        result += self.left.preorder()
+    if self.right != None :
+        result += self.right.preorder()
+    return result
+
+  # 중위순회 결과 리스트로 반환
+  def inorder(self) :
+    result = []
+    if self.left != None :
+        result += self.left.preorder()
+    result += [self.data]
+    if self.right != None :
+        result += self.right.preorder()
+    return result
+
+  # 후위순회 결과 리스트로 반환
+  def postorder(self) :
+    result = []
+    if self.left != None :
+        result += self.left.preorder()
+    if self.right != None :
+        result += self.right.preorder()
+    result += [self.data]
+    return result
+
+def test_tree() :
+  # global root
+  root = Vertex(1)
+  root.add(Vertex(2), Vertex(3))
+  print(root.preorder())
+  print(root.inorder())
+  print(root.postorder())
+
+
+test_tree()
