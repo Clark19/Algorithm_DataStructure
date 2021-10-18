@@ -324,3 +324,60 @@ def test_tree() :
 
 
 test_tree()
+
+
+
+''' 파이썬 내장 Heap 라이브러리 사용해보기 위한 우선순위 큐에서 (최소)힙 사용
+'''
+# 최소 힙 min Heap
+import heapq
+# heapq 라는 파이썬 내장 라이브러리(최소힙) 이용하면 리스트를 힙처럼 이용가능
+# 배열로 직접 구현했을때 보다 구현 매우 간단하고, 더 성능 좋음.
+class PriorityQueue:
+  '''
+  (min Heap 최소 힙이다)
+  '''
+
+  def __init__(self):
+    # 우선순위 큐를 최소 힙으로 구현하기 위한 원본 자료구조[list]
+    self.data = []  # 힙엔 더미데이터 넣을 필요없음.
+
+  def push(self, value):
+    '''
+    우선순위 큐에 value를 삽입.
+    '''
+    # 힙처럼 사용할 자료구조를 첫번재 인자, 둘째엔 삽입할 데이터 넣으면 됨.
+    heapq.heappush(self.data, value)
+
+  def pop(self):
+    '''
+    우선순위가 가장 높은 원소를 제거합니다.
+    '''
+    # pop(삭제?) 시 원본 자료구조가 비어있지 않은지 체크후 호출해야 함.
+    if len(self.data) > 0:
+      return heapq.heappop(self.data)
+
+  def top(self):
+    '''
+    우선순위가 가장 높은 원소를 반환. 만약 우선순위 큐가 비어있다면 -1을 반환.
+    '''
+    if len(self.data) == 0:
+      return -1
+    else:
+      return self.data[0]  # 루트 노드 리턴
+
+
+def heap_test():
+  pQ = PriorityQueue()
+  n = int(input())
+
+  for i in range(n):
+    line = [int(v) for v in input().split()]
+    if line[0] == 0:
+      pQ.push(line[1])
+    elif line[0] == 1:
+      pQ.pop()
+    elif line[0] == 2:
+      print(pQ.top())
+
+heap_test()
