@@ -14,15 +14,27 @@
 // 11. 병합 과정에서는 정렬된 두 개의 리스트를 합쳐서 하나의 정렬된 리스트로 만듭니다.
 let cnt = 0;
 
-function quickSort(arr, left = 0, right = arr.length - 1) {
+/** 퀵소트
+ * @isImmutable 기본값=false라서 원본 배열 변경 함(in-place 버전).
+ *              true 값으로 변경시 원본 배열을 수정하지 않고, 새로운 배열 생성해 리턴(non in-place 버전)
+ */
+function quickSort(arr, isImmutable = false, left = 0, right = arr.length - 1) {
   if (left >= right) return arr;
+
   // const partitionIdx = partition(arr, left, right);
   const partitionIdx = divide(arr, left, right);
-  quickSort(arr, left, partitionIdx - 1);
-  // quickSort_copilot(arr, partitionIdx + 1, right); // partition() 로 할거면 quickSort_copilot(arr, partitionIdx + 1, right); 로 수정해야 함.(+1 해줘야 함)
-  quickSort(arr, partitionIdx, right); // divide() 로 할거면 quickSort_copilot(arr, partitionIdx, right); 로 수정해야 함.(+1 안해줘야 함)
-  // console.log(`${++cnt}번째, pivot=${partitionIdx},${arr[partitionIdx]}: ${arr}`);
-  return arr;
+  if (!isImmutable) {
+    quickSort(arr, false, left, partitionIdx - 1);
+    // quickSort(arr, partitionIdx + 1, right); // partition() 로 할거면 quickSort(arr, partitionIdx + 1, right); 로 수정해야 함.(+1 해줘야 함)
+    quickSort(arr, false, partitionIdx, right); // divide() 로 할거면 quickSort(arr, partitionIdx, right); 로 수정해야 함.(+1 안해줘야 함)
+    // console.log(`${++cnt}번째, pivot=${partitionIdx},${arr[partitionIdx]}: ${arr}`);
+    return arr;
+  } else {
+    const leftArr = quickSort(arr.slice(left, partitionIdx), true)
+    const rightArr = quickSort(arr.slice(partitionIdx, right+1), true)
+  
+    return [...leftArr, ...rightArr]
+  }
 }
 
 const swap = (arr, idx1, idx2) => {
