@@ -14,12 +14,14 @@
 // 11. 병합 과정에서는 정렬된 두 개의 리스트를 합쳐서 하나의 정렬된 리스트로 만듭니다.
 let cnt = 0;
 
-function quickSort_copilot(arr, left = 0, right = arr.length - 1) {
-  if (left >= right) return;
-  const pivotIdx = partition(arr, left, right);
-  quickSort_copilot(arr, left, pivotIdx - 1);
-  quickSort_copilot(arr, pivotIdx + 1, right);
-  // console.log(`${++cnt}번째, pivot=${pivotIdx},${arr[pivotIdx]}: ${arr}`);
+function quickSort(arr, left = 0, right = arr.length - 1) {
+  if (left >= right) return arr;
+  // const partitionIdx = partition(arr, left, right);
+  const partitionIdx = divide(arr, left, right);
+  quickSort(arr, left, partitionIdx - 1);
+  // quickSort_copilot(arr, partitionIdx + 1, right); // partition() 로 할거면 quickSort_copilot(arr, partitionIdx + 1, right); 로 수정해야 함.(+1 해줘야 함)
+  quickSort(arr, partitionIdx, right); // divide() 로 할거면 quickSort_copilot(arr, partitionIdx, right); 로 수정해야 함.(+1 안해줘야 함)
+  // console.log(`${++cnt}번째, pivot=${partitionIdx},${arr[partitionIdx]}: ${arr}`);
   return arr;
 }
 
@@ -27,33 +29,49 @@ const swap = (arr, idx1, idx2) => {
   [arr[idx1], arr[idx2]] = [arr[idx2], arr[idx1]];
 };
 
+/** https://im-developer.tistory.com/135 */
+function divide(array, left, right) {
+  // console.log(
+  //   `array: ${array}, left: ${array[left]}, pivot: ${pivot}, right: ${array[right]}`
+  // );
+
+  const mid = Math.floor((left + right) / 2);
+  const pivot = array[mid];
+
+  while (left <= right) {
+    while (array[left] < pivot) {
+      left++;
+    }
+    while (array[right] > pivot) {
+      right--;
+    }
+    if (left <= right) {
+      swap(array, left, right);
+      left++;
+      right--;
+    }
+  }
+  return left;
+}
+
 function partition(arr, left, right) {
   const pivotObj = getPivot(arr, left, right);
   swap(arr, left, pivotObj.idx);
   const pivotValue = arr[left]; //pivotObj.value;
-  const swapIdx = left; //pivotObj.idx + 1;
+  const pivotIdx = left; //pivotObj.idx + 1;
   let low = left + 1;
   let high = right;
-  while (low < high) {
+  while (low <= high) {
     while (low <= right && arr[low] <= pivotValue) low++;
     while (high >= left + 1 && arr[high] >= pivotValue) high--;
-    // while (high >= left && arr[high] >= pivotValue) high--;
-    if (low < high) swap(arr, low, high);
+    if (low <= high) swap(arr, low, high);
   }
-  // if (high < left) high = left;
-  // if (low > right) low = right;
-  // swap(arr, pivotIdx, pivotIdx < high ? high : low);
-  swap(arr, swapIdx, high);
+
+  swap(arr, pivotIdx, high);
   return high;
 }
 
 function getPivot(arr, leftIdx, rightIdx) {
-  // const mid = Math.floor((left + right) / 2);
-  // if (arr[left] > arr[mid]) swap(arr, left, mid);
-  // if (arr[left] > arr[right]) swap(arr, left, right);
-  // if (arr[mid] > arr[right]) swap(arr, mid, right);
-  // swap(arr, mid, right - 1);
-  // return arr[right - 1];
   let pivotIdx = leftIdx;
   let pivotValue = arr[pivotIdx];
   if (rightIdx - leftIdx <= 1) return { value: pivotValue, idx: pivotIdx };
@@ -69,4 +87,4 @@ function getPivot(arr, leftIdx, rightIdx) {
   return { value: arrToSort[1].value, idx: arrToSort[1].idx };
 }
 
-module.exports = quickSort_copilot;
+module.exports = quickSort;

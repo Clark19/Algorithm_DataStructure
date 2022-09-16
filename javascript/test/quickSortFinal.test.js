@@ -1,4 +1,4 @@
-const quickSort_copilot = require("../quickSort_copilot");
+const quickSort = require("../quickSort");
 
 /** unit test */
 const testData = [
@@ -18,10 +18,10 @@ const testData = [
   },
 ];
 
-describe("quickSort_copilot test", function () {
+describe("quickSort test", function () {
   for (let i = 0; i < testData.length; i++) {
     test(`If [${testData[i].input}] is given, it should return [${testData[i].answer}]`, function () {
-      expect(quickSort_copilot(testData[i].input)).toEqual(testData[i].answer);
+      expect(quickSort(testData[i].input)).toEqual(testData[i].answer);
     });
   }
 });
