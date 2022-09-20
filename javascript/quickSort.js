@@ -100,7 +100,8 @@ function getPivot(arr, leftIdx, rightIdx) {
 }
 
 
-// const assert = requre("assert")
+// const assert = require("assert")
+// import assert from "assert"
 
 // const testData = [
 //   { input: [3, 1, 2, 5, 4], answer: [1, 2, 3, 4, 5] },
