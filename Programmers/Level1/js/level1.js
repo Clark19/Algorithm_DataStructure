@@ -119,3 +119,80 @@ function solution(n) {
 
 
 // 8일차
+//자릿수 더하기 https://school.programmers.co.kr/learn/courses/30/lessons/12931
+function solution(n)
+{
+    // var answer = 0;
+
+    // const N = String(n)
+    // for (let i =0; i<N.length; i++) {
+    //   answer += Number(N[i])
+    // }
+    
+    
+    let answer = String(n)
+        .split("")
+        .reduce((acc, cur) => {
+            // console.log(acc, cur)
+            return acc + Number(cur)
+    }, 0)
+
+    return answer;
+}
+
+// x만큼 간격이 있는 n개의 숫자 https://school.programmers.co.kr/learn/courses/30/lessons/12954
+function solution(x, n) {
+  let answer = [];
+  // for (let i=1; i<=n; i++) {
+  //     // console.log(i, x, i*x)
+  //     answer.push(i*x)
+  // }
+  
+  answer = new Array(n).fill(x)
+      .map((el, i) => el * (i+1))
+  
+  return answer;
+}
+
+// 문자열 내림차순으로 배치하기 https://school.programmers.co.kr/learn/courses/30/lessons/12917
+function solution(s) {
+  //     var arr = [];
+      
+  //     for (let i=0; i<s.length; i++) {
+  //         arr.push(s[i])
+  //     }
+  //     arr.sort((a,b) => {
+  //         return a>b ? -1 : 1
+  //     })
+  //     let answer = ""
+  //     for (let i=0; i<arr.length; i++)
+  //         answer += arr[i]
+      const arr = s.split("")
+      arr.sort((a,b) => {
+          return a>b ? -1 : 1
+      })
+      const answer = arr.join("")
+      return answer;
+  }
+
+// K번째수 https://school.programmers.co.kr/learn/courses/30/lessons/42748
+function solution(array, commands) {
+  //     var answer = [];
+  //     for (let idx = 0; idx < commands.length; idx++) {
+  //         const [i, j, k] = commands[idx]
+          
+  //         const result = array.slice(i-1, j)
+  //         result.sort((a,b) => a - b)
+  //         answer.push(result[k-1])
+  //         console.log(result)
+  //     }
+      
+      const answer = commands.map(el => {
+          const result = array.slice(el[0]-1, el[1])
+          result.sort((a,b) => a-b)
+          // console.log(result)
+          return result[el[2]-1]
+      })
+      
+      return answer;
+  }
