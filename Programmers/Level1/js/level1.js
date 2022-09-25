@@ -177,22 +177,149 @@ function solution(s) {
 
 // K번째수 https://school.programmers.co.kr/learn/courses/30/lessons/42748
 function solution(array, commands) {
-  //     var answer = [];
-  //     for (let idx = 0; idx < commands.length; idx++) {
-  //         const [i, j, k] = commands[idx]
+    // 1. 처음 푼 방식. for loop 이용
+//     var answer = [];
+//     for (let idx = 0; idx < commands.length; idx++) {
+//         const [i, j, k] = commands[idx]
+        
+//         const result = array.slice(i-1, j)
+//         result.sort((a,b) => a - b)
+//         answer.push(result[k-1])
+//         console.log(result)
+//     }
+    
+    // 2방식. map(), slice() 등 이용
+//     const answer = commands.map(el => {
+//         const result = array.slice(el[0]-1, el[1])
+//         result.sort((a,b) => a-b)
+//         // console.log(result)
+//         return result[el[2]-1]
+//     })
+    
+//     return answer;
+    
+    
+    // 3방식. 몇일 뒤 안보고 푼 방식
+    return commands.map(command => array.slice(command[0]-1, command[1]).sort((a,b) => a-b)[command[2]-1])
+}
+
+
+// 12일차
+// 문자열 내 p와 y의 개수 https://school.programmers.co.kr/learn/courses/30/lessons/12916
+function solution(s){
+  /* 처음 푼 방식 */
+//     let pCnt = 0
+//     let yCnt = 0
+  
+//     for (let i=0; i<s.length; i++) {
+//         console.log(s[i].toLowerCase())
+//         if (s[i].toLowerCase() === "p") {
+//             pCnt++
+//         } else if (s[i].toLowerCase() === "y") {
+//             yCnt++
+//         }
+//     }   
+//     // console.log(pCnt, yCnt)
+//    return pCnt === yCnt
+  
+  /* 방식 2 */
+  // const obj = {p:0, y:0}
+  // s.toLowerCase().split("").forEach(char => {
+  //     obj[char] === undefined
+  //         ? obj[char] = 1
+  //         : obj[char]++
+  // })
+  // return obj.p === obj.y
+  
+  /* 방식 3 */
+  // return s.toLowerCase().split("p").length === s.toLowerCase().split("y").length
+  
+  // 4 방식 정규표현식 이용. 구현 더 간단, 그러나 더 느림. - s.match(regex)에 매칭되는게 없으면 결과과 없어 null 이 되므로 optional chaining 사용해야 런타임 에러안남
+  return s.match(/p/ig)?.length === s.match(/y/ig)?.length
+}
+
+// 이상한 문자 만들기 https://school.programmers.co.kr/learn/courses/30/lessons/12930
+function solution(s) {
+  //     let answer = '';
+  //     let idx = 0;
+      
+  //     for (let i=0; i<s.length; i++) {
           
-  //         const result = array.slice(i-1, j)
-  //         result.sort((a,b) => a - b)
-  //         answer.push(result[k-1])
-  //         console.log(result)
+  //         if (s[i] === " ") {
+  //             answer += " ";
+  //             idx = 0;
+  //         } else {
+  //             // console.log(s[i], i, idx);
+  //             answer += idx%2 === 0
+  //                 ? s[i].toUpperCase()
+  //                 : s[i].toLowerCase()
+  //             idx++;
+  //         }
+  
   //     }
+  //     return answer;
       
-      const answer = commands.map(el => {
-          const result = array.slice(el[0]-1, el[1])
-          result.sort((a,b) => a-b)
-          // console.log(result)
-          return result[el[2]-1]
-      })
       
-      return answer;
+    // 2 방식
+    // const answer = s.split(" ")
+    //                 .map(word => {
+    //                     return word.split("")
+    //                                 .map((letter, i) => i%2 ? letter.toLowerCase() : letter.toUpperCase()).join("")
+    //                 }).join(" ")
+    // // console.log(answer)
+    // return answer
+    
+    // 3 방식 regex
+    const process = a => a[0].toUpperCase() + a[1].toLowerCase()
+    return s.toUpperCase().replace(/(\w)(\w)/g, process)
+}
+
+// 자연수 뒤집어 배열로 만들기 https://school.programmers.co.kr/learn/courses/30/lessons/12932
+function solution(n) {
+  //     let answer = [];
+  //     n = n.toString() // .toString() 은 변수에 숫자를 담아야 에러 없이 사용 가능
+      
+  //     // for (let i=n.length-1; i>=0; i--) {
+  //     //     answer.push(Number(n[i]))
+  //     // }
+  //     for (let i=0; i<n.length; i++) {
+  //         // console.log(n[i])
+  //         answer.unshift(Number(n[i]))
+  //     }
+  //     return answer;
+      
+      
+      // 2 방식
+      // return String(n).split("")
+      //             .reverse().map(el => Number(el))
+      
+          // 3방식 숫자풀이
+      var arr = [];
+  
+      do {
+          arr.push(n%10); // 뒷자리(일의 자리) 숫자만 뽑아서 넣기
+          n = Math.floor(n/10); // 뒷자리(일의 자리) 숫자 제거하기
+      } while (n>0); // 모든 숫자 없어질때(0될때) 까지 하기
+  
+      return arr;
   }
+
+
+// 나누어 떨어지는 숫자 배열 https://school.programmers.co.kr/learn/courses/30/lessons/12910
+function solution(arr, divisor) {
+  // const answer = [];
+  // for (let i=0; i<arr.length; i++) {
+  //     console.log(arr[i], arr[i]%divisor)
+  //     if (arr[i] % divisor === 0) {
+  //         answer.push(arr[i])
+  //     }
+  // }
+  // return answer.length === 0
+  //         ? [-1]
+  //         : answer.sort((a,b) => a-b)
+  
+  const answer = arr.filter(num => num%divisor === 0).sort((a,b) => a-b)
+  return answer.length === 0
+          ? [-1]
+          : answer
+}
