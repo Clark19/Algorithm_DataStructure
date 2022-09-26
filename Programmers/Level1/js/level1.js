@@ -323,3 +323,64 @@ function solution(arr, divisor) {
           ? [-1]
           : answer
 }
+
+
+// 13일차
+// 정수 제곱근 판별 https://school.programmers.co.kr/learn/courses/30/lessons/12934
+function solution(n) {
+  //     var answer = -1;
+      
+  //     // 2* 2 === 4
+  //     // i*i === n
+  //     for (let i=1; i*i <= n; i++) {
+  //         if (i*i === n) {
+  //             console.log(i, i*i)
+  //             // answer = Math.pow(i+1, 2)
+  //             return (i+1)**2
+  //         }
+  //     }
+  //     // 제곱근을 찾지 못한 경우
+  //     return answer;
+      
+      let sqrt = Math.sqrt(n)
+      if (Number.isInteger(sqrt) === true ) {
+          // 제곱근일 경우
+          sqrt++
+          return sqrt**2
+      } else {
+          return -1
+      }
+  }
+
+// 제일 작은 수 제거하기 https://school.programmers.co.kr/learn/courses/30/lessons/12935
+function solution(arr) {
+  //     var answer = [];
+  //     let min = arr[0]
+  //     for (let i = 0; i<arr.length; i++) {
+  //         if (arr[i] < min)
+  //             min = arr[i]
+  //     }
+  //     for (let i =0; i<arr.length; i++) {
+  //         if (arr[i] !== min)
+  //             answer.push(arr[i])
+  //     }
+      
+  //     return answer.length === 0
+  //             ? [-1]
+  //             : answer
+      
+      
+      // filter 사용 방식
+      // let min = Math.min(...arr)
+      // return arr.length === 1
+      //         ? [-1]
+      //         : arr.filter(el => el !== min)
+      
+      // .sort() 사용 하는 방식도 있음.
+      
+      // splice로 제거 하는 방식
+      arr.splice(arr.indexOf(Math.min(...arr)), 1)
+      return arr.length < 1
+              ? [-1]
+              : arr
+  }
