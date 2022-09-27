@@ -384,3 +384,105 @@ function solution(arr) {
               ? [-1]
               : arr
   }
+
+// 14일차
+// 콜라츠 추측 https://school.programmers.co.kr/learn/courses/30/lessons/12943
+function solution(num) {
+  // 1방식. for loop 이용
+//     if (num === 1) return 0
+  
+//     var answer = 0;
+//     while (num !== 1) {
+//         num = num%2 ? num*3+1 : num/2
+//         if (++answer > 500) return -1
+//     }
+//     // console.log(num, answer)
+//     return answer;
+ 
+  
+  /* 2방식. Array().fill() 이용 방식 : 이 방식은 비효율적. */
+  // const result = new Array(500).fill(1)
+  //     .forEach(el => {
+  //         if (num != 1) {
+  //             num = num%2 ? num*3+1 : num/2
+  //             answer++
+  //         }
+  //     })
+  // return num !== 1 ? -1 : answer
+  
+  
+  // 3 방식. 재귀 호출 방식
+  if (num === 1) return 0
+  if (num <= -1) return -1
+   
+  let answer = 1;
+  
+  num = num%2 ? num*3+1 : num/2
+
+
+  // answer = solution(num ) === -1 ? -1 : answer +  
+  answer += solution(num)
+  if (answer > 500) return -1
+  return answer
+}
+
+// 콜라즈 추측 안보고 다시 풀어본거
+function solution(num) {
+  // let cnt = 0
+  // while(num !== 1) {
+  //     if (num%2 === 0) num = num/2
+  //     else num = num*3 + 1
+  //     if (++cnt > 500) return -1
+  // }
+  // return cnt
+}
+// 재귀 방식
+function solution(num, count = 0) {
+  // console.log(num, count)
+  if (count > 500) return -1
+  return num === 1 ? count : solution(num%2 ? num*3+1 : num/2, ++count)
+}
+
+
+// 두 개 뽑아서 더하기 https://school.programmers.co.kr/learn/courses/30/lessons/68644
+function solution(numbers) {
+  let answer = [];
+  const set = new Set()
+  numbers.forEach((el,i,arr) => {
+      for (let j=i+1; j<arr.length; j++) {
+          set.add(el+arr[j])
+      }
+  } );
+
+  return [...set].sort((a,b) => a-b);
+  
+  /* Set 특징
+  set.forEach(el => el) 사용 가능
+  set.delete(2 value)
+  set.has(vale)
+  set.size
+  set.clear()
+  */
+  
+  // 2방식. 메서드만 이용하는 방식
+  // const answer = new Set([])
+  // numbers.forEach((num1, i) => {
+  //     numbers.slice(i+1).forEach(num2 => {
+  //         answer.add(num1 + num2)
+  //     })
+  // })
+  // return [...answer].sort((a,b) => a-b)
+  
+  
+  // // 3.방식. for loop
+  // const answer = []
+  // for (let i=0; i<numbers.length; i++) {
+  //     for(let j=i+1; j<numbers.length; j++) {
+  //         const sum = numbers[i] + numbers[j]
+  //         if (!answer.includes(sum))
+  //             answer.push(sum)
+  //     }
+  // }
+  // answer.sort((a,b) => a-b)
+  // return answer
+}
