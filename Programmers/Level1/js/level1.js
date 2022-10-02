@@ -458,6 +458,7 @@ function solution(numbers) {
   
   /* Set 특징
   set.forEach(el => el) 사용 가능
+  set.add(el) : 중복된 값은 추가 안됨.
   set.delete(2 value)
   set.has(vale)
   set.size
@@ -485,4 +486,64 @@ function solution(numbers) {
   // }
   // answer.sort((a,b) => a-b)
   // return answer
+}
+
+
+// 15일차
+// 없는 숫자 더하기 https://school.programmers.co.kr/learn/courses/30/lessons/86051
+function solution(numbers) {
+  // var answer = 0;
+  // const check = [0,1,2,3,4,5,6,7,8,9]
+  // for (let i=1; i<=9; i++) {
+  //     if (!numbers.includes(i)) {
+  //         answer += i
+  //     }
+  // }
+  // return answer;
+
+  // 2방식 new Array(value).fill(1) 이용 방식
+  // const answer = new Array(9).fill(1).reduce((acc, cur, idx) => {
+  //     const sum = cur+idx
+  //     // console.log(acc, cur, idx, sum)
+  //     return acc + (!numbers.includes(sum) ? sum : 0)
+  // }, 0)
+  // // console.log(answer)
+  // return answer
+  
+  // 3방식. 대상 합산 후 입력 배열 reduce로 합산후 빼는 방식
+  return 45 - numbers.reduce((acc, cur) => acc + cur)
+}
+
+// 두 정수 사이의 합 https://school.programmers.co.kr/learn/courses/30/lessons/12912
+function solution(a, b) {
+  // var answer = 0;
+  // const min = Math.min(a,b)
+  // for (let i=min; i<= min+Math.abs(a-b); i++)  {
+  //     answer += i
+  // }
+  // return answer;
+  
+  // 2방식- 가우스공식, 등차수열의 합 공식 이용법
+  // (첫항+끝항) * 1/2*항수
+  return (a+b)*(Math.abs(a-b)+1)/2
+  
+}
+
+// 하샤드 수 https://school.programmers.co.kr/learn/courses/30/lessons/12947
+function solution(x) {
+  // 1방식. for loop
+  // let answer = 0
+  // x = String(x)
+  // for (let i=0; i<x.length; i++) {
+  //     answer += Number(x[i])
+  // }
+  // return x % answer === 0
+  
+  
+  // 2방식. split. reduce() 이용방식
+  // const sum = x.toString().split("").reduce((acc,cur) => Number(acc)+Number(cur))
+  const sum = x.toString().split("").reduce((acc,cur) => acc+Number(cur), 0)
+  // return x%sum ? false: true;
+  // 위 리턴문 더 줄이면 아래처럼 가능
+  return x%sum === 0
 }
