@@ -547,3 +547,34 @@ function solution(x) {
   // 위 리턴문 더 줄이면 아래처럼 가능
   return x%sum === 0
 }
+
+
+// 16일차
+// 내적 https://school.programmers.co.kr/learn/courses/30/lessons/70128
+function solution(a, b) {
+  let answer = 0;
+  a.forEach((ai, i) => answer += ai*b[i])
+  return answer;
+  
+  // return a.reduce((acc, cur, i) => acc += cur * b[i], 0)
+}
+
+// 행렬의 덧셈 https://school.programmers.co.kr/learn/courses/30/lessons/12950
+function solution(arr1, arr2) {
+  //     let answer = [];
+  // arr1.forEach((a,i) => { 
+  //     a.forEach((data, j) => answer[i] ? answer[i].push(data+arr2[i][j]) : answer.push([data+arr2[i][j]]) )
+  // })
+  // return answer;
+  
+  // 2방식 .map() 사용
+  return arr1.map((row, i) => row.map((num,j) => num+arr2[i][j]))
+}
+ 
+
+// 17일차
+// 음양 더하기 https://school.programmers.co.kr/learn/courses/30/lessons/76501
+function solution(absolutes, signs) {
+  return absolutes.reduce((acc,cur,i) => signs[i] ? acc + cur : acc - cur, 0)
+}
+
