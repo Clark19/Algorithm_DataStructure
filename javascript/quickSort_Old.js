@@ -18,18 +18,18 @@
  * @isImmutable 기본값=false라서 원본 배열 변경 함(in-place 버전).
  *              true 값으로 변경시 원본 배열을 수정하지 않고, 새로운 배열 생성해 리턴(non in-place 버전)
  */
-function quickSort(arr, left = 0, right = arr.length - 1, isMutable = true) {
+function quickSort(arr, left = 0, right = arr.length - 1, isMutable = false) {
   if (left >= right) return arr;
 
-  const partitionIdx = divide(arr, left, right);
+  const partitionIdx = partition(arr, left, right);
   if (isMutable) {
     quickSort(arr, left, partitionIdx - 1, isMutable);
-    quickSort(arr, partitionIdx, right, isMutable);
+    quickSort(arr, partitionIdx + 1, right); // divide() 로 할거면 quickSort(arr, partitionIdx, right); 로 수정해야 함.(+1 안해줘야 함)
 
     return arr;
   } else {
-    const leftArr = quickSort(arr.slice(left, partitionIdx), 0, partitionIdx-left-1, isMutable)
-    const rightArr = quickSort(arr.slice(partitionIdx, right+1), 0, right-partitionIdx, isMutable)
+    const leftArr = quickSort(arr.slice(left, partitionIdx), isMutable)
+    const rightArr = quickSort(arr.slice(partitionIdx, right+1), isMutable)
   
     return [...leftArr, ...rightArr]
   }
@@ -37,54 +37,69 @@ function quickSort(arr, left = 0, right = arr.length - 1, isMutable = true) {
 
 const swap = (arr, idx1, idx2) => [arr[idx1], arr[idx2]] = [arr[idx2], arr[idx1]];
 
-/** https://im-developer.tistory.com/135 */
-function divide(array, left, right) {
-  const mid = Math.floor((left + right) / 2);
-  const pivot = array[mid];
-
-  while (left <= right) {
-    while (array[left] < pivot) {
-      left++;
-    }
-    while (array[right] > pivot) {
-      right--;
-    }
-    if (left <= right)
-      swap(array, left++, right--);
+function partition(arr, left, right) {
+  const pivotObj = getPivot(arr, left, right);
+  swap(arr, left, pivotObj.idx);
+  const pivotValue = arr[left]; //pivotObj.value;
+  const pivotIdx = left; //pivotObj.idx + 1;
+  let low = left + 1;
+  let high = right;
+  while (low <= high) {
+    while (low <= right && arr[low] <= pivotValue) low++;
+    while (high >= left + 1 && arr[high] >= pivotValue) high--;
+    if (low <= high) swap(arr, low, high);
   }
-  return left;
+
+  swap(arr, pivotIdx, high);
+  return high;
+}
+
+function getPivot(arr, leftIdx, rightIdx) {
+  let pivotIdx = leftIdx;
+  let pivotValue = arr[pivotIdx];
+  if (rightIdx - leftIdx <= 1) return { value: pivotValue, idx: pivotIdx };
+
+  const midIdx = leftIdx + Math.floor((rightIdx - leftIdx) / 2);
+  const arrToSort = [
+    { value: arr[leftIdx], idx: leftIdx },
+    { value: arr[midIdx], idx: midIdx },
+    { value: arr[rightIdx], idx: rightIdx },
+  ];
+  arrToSort.sort((a, b) => a.value - b.value);
+
+  return { value: arrToSort[1].value, idx: arrToSort[1].idx };
 }
 
 
 // const assert = require("assert")
-// import assert from "assert"
+import assert from "assert"
 
-// const testData = [
-//   { input: [3, 1, 2, 5, 4], answer: [1, 2, 3, 4, 5] },
-//   { input: [3, 6, 1, 3, 2, 5, 4], answer: [1, 2, 3, 3, 4, 5, 6] },
-//   { input: [3, 1, 3, 2, 5, 4], answer: [1, 2, 3, 3, 4, 5] },
-//   { input: [2, 2, 2], answer: [2, 2, 2] },
-//   { input: [3, 1, 2], answer: [1, 2, 3] },
-//   { input: [-3, -1, -2], answer: [-3, -2, -1] },
-//   {
-//     input: [5, 7, 9, 0, 3, 1, 6, 2, 4, 8],
-//     answer: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-//   },
-//   {
-//     input: [100, -3, 2, 4, 6, 9, 1, 2, 5, 3, 23],
-//     answer: [-3, 1, 2, 2, 3, 4, 5, 6, 9, 23, 100],
-//   },
-// ];
-
-
-// let output = null
-// testData.forEach(data => {
-//   output = quickSort(data.input)
-//   console.log(output)
-//   assert.deepStrictEqual(output, data.answer)
-// });
-
-// console.log("good")
+const testData = [
+  { input: [3, 1, 2, 5, 4], answer: [1, 2, 3, 4, 5] },
+  { input: [3, 6, 1, 3, 2, 5, 4], answer: [1, 2, 3, 3, 4, 5, 6] },
+  { input: [3, 1, 3, 2, 5, 4], answer: [1, 2, 3, 3, 4, 5] },
+  { input: [2, 2, 2], answer: [2, 2, 2] },
+  { input: [3, 1, 2], answer: [1, 2, 3] },
+  { input: [-3, -1, -2], answer: [-3, -2, -1] },
+  {
+    input: [5, 7, 9, 0, 3, 1, 6, 2, 4, 8],
+    answer: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  },
+  {
+    input: [100, -3, 2, 4, 6, 9, 1, 2, 5, 3, 23],
+    answer: [-3, 1, 2, 2, 3, 4, 5, 6, 9, 23, 100],
+  },
+];
 
 
-module.exports = quickSort;
+let output = null
+testData.forEach(data => {
+  output = quickSort(data.input)
+  console.log(output)
+  assert.deepStrictEqual(output, data.answer)
+});
+
+console.log("good")
+
+
+// module.exports = quickSort;
