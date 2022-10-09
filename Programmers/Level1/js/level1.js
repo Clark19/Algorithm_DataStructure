@@ -578,3 +578,171 @@ function solution(absolutes, signs) {
   return absolutes.reduce((acc,cur,i) => signs[i] ? acc + cur : acc - cur, 0)
 }
 
+
+// 18일차
+// 2016년 https://school.programmers.co.kr/learn/courses/30/lessons/12901
+function solution(a, b) {
+    
+  //     const month = {
+  //     1 : 31,
+  //     2 : 29,
+  //     3 : 31,
+  //     4 : 30,
+  //     5 : 31,
+  //     6 : 30,
+  //     7 : 31,
+  //     8 : 31,
+  //     9 : 30,
+  //     10 : 31,
+  //     11 : 30,
+  //     12 : 31
+  // }
+  //     const week = [ "FRI", "SAT", "SUN", "MON", "TUE", "WED", "THU" ]
+      
+      
+      
+      // 1방식. for loop 이용
+  //     let answer = '';
+  //     for (let i=1; i<a; i++) {
+  //         answer += month[i]
+  //     }
+  //     answer += (b-1)
+  //     answer  = week[answer % 7]
+      
+  //     return answer;
+      
+      
+      // 2방식. reduce 이용
+  //     const weekIdx = new Array(a).fill(1)
+  //             .reduce((acc, cur, idx) => {
+  //                 // console.log(cur, idx)
+  //                 const monthNum = cur + idx
+  //                 return acc + ((monthNum !== a)
+  //                                 ? month[monthNum]
+  //                                 : (b-1)
+  //                               )
+  //             }, 0)
+      
+  //     return week[weekIdx % 7]
+      
+      // 3방식. 내장 Date 객체 사용법
+      const week = [ "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT" ]
+      const day = new Date(2016, a-1, b).getDay()
+      // console.log(day)
+      return week[day]
+      
+      
+      // 4방식. 가장 간단 방식
+      // const answer = new Date(`2016 ${a} ${b}`)
+      // console.log(String(answer).slice(0,3).toUpperCase())
+      // return String(answer).slice(0,3).toUpperCase()
+      // return String(new Date(`2016 ${a} ${b}`)).slice(0,3).toUpperCase()
+  }
+
+  // 19일차
+  // 최대공약수와 최소공배수 https://school.programmers.co.kr/learn/courses/30/lessons/12940
+/** 1방식. 사전지식 없이(최소공배,최대공약, 유클리드호제법 다까먹은 상태) 최초 푼 방식 */
+// function solution(n, m) {
+//     const min = Math.min(n, m)
+//     const max = Math.max(n, m)
+//     return [gcd(min,max), lcm(min,max)];
+// }
+
+// // 최소공배수
+// function lcm(min, max) {
+//     // if (max%min === 0) return max
+    
+//     let lcm = 1
+//     for (let i=max; i <= min*max; i += max) {
+//         if (i%min === 0) {
+//             lcm = i
+//             break;
+//         }
+//     }
+    
+//     return lcm
+// }
+
+// // 최대공약수
+// function gcd(min, max) {
+//   //  1. 최초 푼 방식
+//   //   let minNumYaksus = []
+//   //   for (let i=1; i<=min; i++) {
+//   //       if (min%i===0) {
+//   //           minNumYaksus.push(i)
+//   //       }
+//   //   }
+//   // // console.log(minNumYaksus)
+//   //   let gcd = []
+//   //   for (let j=0; j<minNumYaksus.length; j++) {
+//   //       if (max%minNumYaksus[j]===0) {
+//   //           gcd.push(minNumYaksus[j])
+//   //       }
+//   //   }
+//   // // console.log(gcd)
+//   //   return gcd.pop()
+    
+//     // 2. 리팩토링
+//     let yaksoo = []
+//     for (let i=1; i <= min; i++) {
+//         if (min%i === 0 && max%i === 0) {
+//             yaksoo.push(i)
+//         }
+//     }
+//     return yaksoo.pop()
+// }
+
+
+/** 2방식. 최소공배, 최대공약, 유클리드호제법 재학습 후 푼 방식 */
+function solution(n, m) {
+  const min = n<m ? n : m
+  const max = Math.max(n,m)
+  const gcdNum = gcd(min, max); // 최대공약수
+  return [gcdNum, min*max / gcdNum];
+}
+
+// 최대공약수 - 유클리드 호제법(반복문) 이용 방식
+// function gcd(min, max) {
+//     let remainder = max%min
+//     while(remainder !== 0) { // 즉 max%min == 0 이면 min이 최대공약수이다.
+//         max = min // max와 나머지의 역할 바꾸기 진행
+//         min = remainder
+//         remainder = max%min
+//     }
+//     return min // 즉, max % min === 0 일때의 min이 최대 공약수이다.
+// }
+
+// 3방식. 최대공약수 - 유클리드 호제법(재귀) 이용 방식
+function gcd(min, max) {  
+  return min === 0 ? max : gcd(max%min, min)
+}
+
+
+// 20일차
+// 완주하지 못한 선수 https://school.programmers.co.kr/learn/courses/30/lessons/42576
+function solution(participant, completion) {
+  // 1방식. 성능 테스트 실패. 정확성 테스트 통과함.
+  // completion.forEach((name,i) =>  {
+  //     if (participant.includes(name))
+  //     participant.splice(participant.indexOf(name), 1);
+  // })
+  // return participant[0]
+  
+  
+  // 2. 문제 조건 잘 읽어보면 단 한명만 마라톤 완주 못함을 이용하여 찾자마자 리턴 방식
+  participant.sort((a,b) => a>b ? 1:-1)
+  completion.sort((a,b) => a>b ? 1:-1)
+  
+//     for (let i=0; i<participant.length; i++) {
+//         if (participant[i] !== completion[i])
+//             return participant[i]
+//     }
+  
+  
+  // participant.sort((a,b) => a-b)
+  // completion.sort((a,b) => a-b)
+  
+  const answer = participant.filter((name,i) => name !== completion[i])
+  return answer[0]
+}
+
