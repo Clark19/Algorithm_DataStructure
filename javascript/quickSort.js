@@ -18,20 +18,20 @@ let cnt = 0;
  * @isImmutable 기본값=false라서 원본 배열 변경 함(in-place 버전).
  *              true 값으로 변경시 원본 배열을 수정하지 않고, 새로운 배열 생성해 리턴(non in-place 버전)
  */
-function quickSort(arr, isImmutable = false, left = 0, right = arr.length - 1) {
+function quickSort(arr, left = 0, right = arr.length - 1, isMutable = false) {
   if (left >= right) return arr;
 
   // const partitionIdx = partition(arr, left, right);
   const partitionIdx = divide(arr, left, right);
-  if (!isImmutable) {
-    quickSort(arr, false, left, partitionIdx - 1);
+  if (isMutable) {
+    quickSort(arr, left, partitionIdx - 1, isMutable);
     // quickSort(arr, partitionIdx + 1, right); // partition() 로 할거면 quickSort(arr, partitionIdx + 1, right); 로 수정해야 함.(+1 해줘야 함)
-    quickSort(arr, false, partitionIdx, right); // divide() 로 할거면 quickSort(arr, partitionIdx, right); 로 수정해야 함.(+1 안해줘야 함)
+    quickSort(arr, partitionIdx, right, isMutable); // divide() 로 할거면 quickSort(arr, partitionIdx, right); 로 수정해야 함.(+1 안해줘야 함)
     // console.log(`${++cnt}번째, pivot=${partitionIdx},${arr[partitionIdx]}: ${arr}`);
     return arr;
   } else {
-    const leftArr = quickSort(arr.slice(left, partitionIdx), true)
-    const rightArr = quickSort(arr.slice(partitionIdx, right+1), true)
+    const leftArr = quickSort(arr.slice(left, partitionIdx), 0, partitionIdx-left-1, isMutable)
+    const rightArr = quickSort(arr.slice(partitionIdx, right+1), 0, right-partitionIdx, isMutable)
   
     return [...leftArr, ...rightArr]
   }
@@ -123,7 +123,7 @@ function getPivot(arr, leftIdx, rightIdx) {
 
 // let output = null
 // testData.forEach(data => {
-//   output = qsort(data.input)
+//   output = quickSort(data.input, 0, data.input.length-1)
 //   console.log(output)
 //   assert.deepStrictEqual(output, data.answer)
 // });
