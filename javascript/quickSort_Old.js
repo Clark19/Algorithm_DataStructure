@@ -15,19 +15,22 @@
 
 
 /** 퀵소트
- * @isImmutable 기본값=false라서 원본 배열 변경 함(in-place 버전).
- *              true 값으로 변경시 원본 배열을 수정하지 않고, 새로운 배열 생성해 리턴(non in-place 버전)
+ * @isMutable 기본값=true라서 원본 배열 변경 함(in-place 버전).
+ *              false 값으로 변경시 원본 배열을 수정하지 않고, 새로운 배열 생성해 리턴(non in-place 버전)
  */
-function quickSort(arr, left = 0, right = arr.length - 1, isMutable = false) {
+function quickSort(arr, isMutable = true, left = 0, right = arr.length - 1) {
   if (left >= right) return arr;
 
+  
+  // console.log(left, right)
+  // if (left==0 && right==1) return arr
   const partitionIdx = partition(arr, left, right);
   if (isMutable) {
-    quickSort(arr, left, partitionIdx - 1, isMutable);
-    quickSort(arr, partitionIdx + 1, right); // divide() 로 할거면 quickSort(arr, partitionIdx, right); 로 수정해야 함.(+1 안해줘야 함)
+    quickSort(arr, isMutable, left, partitionIdx - 1);
+    quickSort(arr, isMutable, partitionIdx + 1, right); // divide() 로 할거면 quickSort(arr, partitionIdx, right); 로 수정해야 함.(+1 안해줘야 함)
 
     return arr;
-  } else {
+  } else { // 오류 있음
     const leftArr = quickSort(arr.slice(left, partitionIdx), isMutable)
     const rightArr = quickSort(arr.slice(partitionIdx, right+1), isMutable)
   

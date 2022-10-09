@@ -15,21 +15,21 @@
 
 
 /** 퀵소트
- * @isImmutable 기본값=false라서 원본 배열 변경 함(in-place 버전).
- *              true 값으로 변경시 원본 배열을 수정하지 않고, 새로운 배열 생성해 리턴(non in-place 버전)
+ * @isMutable 기본값=true라서 원본 배열 변경 함(in-place 버전).
+ *              false 값으로 변경시 원본 배열을 수정하지 않고, 새로운 배열 생성해 리턴(non in-place 버전)
  */
-function quickSort(arr, left = 0, right = arr.length - 1, isMutable = true) {
+function quickSort(arr, isMutable=true, left=0, right=arr.length-1) {
   if (left >= right) return arr;
 
-  const partitionIdx = divide(arr, left, right);
-  if (isMutable) {
-    quickSort(arr, left, partitionIdx - 1, isMutable);
-    quickSort(arr, partitionIdx, right, isMutable);
+  const partitionIdx = divide(arr, left, right); // pivotIdx = partition()
+  if (isMutable) { // == in-place
+    quickSort(arr, isMutable, left, partitionIdx - 1);
+    quickSort(arr, isMutable, partitionIdx, right);
 
     return arr;
-  } else {
-    const leftArr = quickSort(arr.slice(left, partitionIdx), 0, partitionIdx-left-1, isMutable)
-    const rightArr = quickSort(arr.slice(partitionIdx, right+1), 0, right-partitionIdx, isMutable)
+  } else { // Immutable == non-inplace
+    const leftArr = quickSort(arr.slice(left, partitionIdx), isMutable)
+    const rightArr = quickSort(arr.slice(partitionIdx, right+1), isMutable)
   
     return [...leftArr, ...rightArr]
   }
@@ -43,15 +43,13 @@ function divide(array, left, right) {
   const pivot = array[mid];
 
   while (left <= right) {
-    while (array[left] < pivot) {
-      left++;
-    }
-    while (array[right] > pivot) {
-      right--;
-    }
+    while (array[left] < pivot) left++;
+    while (array[right] > pivot) right--;
+
     if (left <= right)
       swap(array, left++, right--);
   }
+
   return left;
 }
 
