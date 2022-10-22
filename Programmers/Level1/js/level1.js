@@ -746,3 +746,77 @@ function solution(participant, completion) {
   return answer[0]
 }
 
+// for loop로 풀어본 방식: O(n^2) Double for loop 라서 효율성 테스트 실패
+// function solution(participant, completion) {
+//     console.log(participant, completion)
+//     let compName = completion[0] // leo, kiki, eden   
+    
+//     for (let j = 0; j<participant.length; j++) {
+//         let parName = participant[j]
+//         if ( !isCompletedPerson(completion, parName) ) {
+//                 return parName
+//         }
+//     }
+// }
+
+// function isCompletedPerson(compArr, nameToFind) {
+//     for (let i=0; i<compArr.length; i++) {
+//         if (nameToFind === compArr[i]) {
+//             delete compArr[i]
+//             // compArr[i] = ""
+//             return true
+//         }
+//     }
+//     return false
+// }
+
+
+// sort() 방식: O(nlogn) 
+// function solution(participant, completion) {
+//     const sortedP = participant.sort((a,b) => a>b ? 1:-1) // 오름차순 정렬
+//     const sortedC = completion.sort((a,b) => a>b ? 1:-1)
+//     console.log(completion)
+    
+//     return participant.find((name, i) => name !== completion[i])
+// }
+
+
+// 객체를 범용 맵처람 사용한 방식객체를 범용 맵처람 사용한 방식 => 이론상 2 * n 이라서 O(n) 이라서 제일 빠를거 같은데
+// 위 sort() 방식의 O(nlogn) 보다 프로그래머스 효율성 테스트에서 조금 느리다. (평균 10~20ms 느림)
+// 아마 데이터가 적어서 그런걸까?
+// function solution(participant, completion) {
+//     const hashT = {}
+//     let pName = ""
+//     let cName = ""
+//     for (let i=0; i<participant.length; i++) {
+//         pName = participant[i]
+//         // hashT[pName] = (hashT[pName] == undefined ? 1 : ++hashT[pName])
+//         hashT[pName] = (hashT[pName] || 0) + 1
+//         if (i <= completion.length-1) {
+//             cName = completion[i]
+//             // hashT[cName] = (hashT[cName] == undefined ? -1 : --hashT[cName])
+//             hashT[cName] = (hashT[cName] || 0) -1
+//         }
+//     }
+     
+    
+//     return Object.entries(hashT).find(([key, value]) => value !== 0)[0]
+// }
+
+
+// Map() 사용: time complexity => O(2n) == O(n) 이라서 제일 빠름
+function solution(participant, completion) {
+  const map = new Map()
+  
+  participant.forEach((name, i) => {
+      map.set(name, (map.get(name) || 0) + 1 )
+      map.set(completion[i], (map.get(completion[i]) || 0) - 1 )
+  });
+  
+  // return Array.from(map.entries()).find(([key, value]) => value > 0)[0]
+  for(let [k, v] of map) {
+      if(v > 0) return k;
+  }
+}
+
+
