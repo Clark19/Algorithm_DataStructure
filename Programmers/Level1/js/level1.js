@@ -772,36 +772,36 @@ function solution(participant, completion) {
 
 
 // sort() 방식: O(nlogn) 
-// function solution(participant, completion) {
-//     const sortedP = participant.sort((a,b) => a>b ? 1:-1) // 오름차순 정렬
-//     const sortedC = completion.sort((a,b) => a>b ? 1:-1)
-//     console.log(completion)
+function solution(participant, completion) {
+    participant.sort((a,b) => a>b ? 1:-1) // 오름차순 정렬
+    completion.sort((a,b) => a>b ? 1:-1)
+    console.log(completion)
     
-//     return participant.find((name, i) => name !== completion[i])
-// }
+    return participant.find((name, i) => name !== completion[i])
+}
 
 
 // 객체를 범용 맵처람 사용한 방식객체를 범용 맵처람 사용한 방식 => 이론상 2 * n 이라서 O(n) 이라서 제일 빠를거 같은데
 // 위 sort() 방식의 O(nlogn) 보다 프로그래머스 효율성 테스트에서 조금 느리다. (평균 10~20ms 느림)
 // 아마 데이터가 적어서 그런걸까?
-// function solution(participant, completion) {
-//     const hashT = {}
-//     let pName = ""
-//     let cName = ""
-//     for (let i=0; i<participant.length; i++) {
-//         pName = participant[i]
-//         // hashT[pName] = (hashT[pName] == undefined ? 1 : ++hashT[pName])
-//         hashT[pName] = (hashT[pName] || 0) + 1
-//         if (i <= completion.length-1) {
-//             cName = completion[i]
-//             // hashT[cName] = (hashT[cName] == undefined ? -1 : --hashT[cName])
-//             hashT[cName] = (hashT[cName] || 0) -1
-//         }
-//     }
+function solution(participant, completion) {
+    const hashT = {}
+    let pName = ""
+    let cName = ""
+    for (let i=0; i<participant.length; i++) {
+        pName = participant[i]
+        // hashT[pName] = (hashT[pName] == undefined ? 1 : ++hashT[pName])
+        hashT[pName] = (hashT[pName] || 0) + 1
+        if (i <= completion.length-1) {
+            cName = completion[i]
+            // hashT[cName] = (hashT[cName] == undefined ? -1 : --hashT[cName])
+            hashT[cName] = (hashT[cName] || 0) -1
+        }
+    }
      
     
-//     return Object.entries(hashT).find(([key, value]) => value !== 0)[0]
-// }
+    return Object.entries(hashT).find(([key, value]) => value !== 0)[0]
+}
 
 
 // Map() 사용: time complexity => O(2n) == O(n) 이라서 제일 빠름
@@ -820,3 +820,100 @@ function solution(participant, completion) {
 }
 
 
+// 21일차
+// 모의고사 https://school.programmers.co.kr/learn/courses/30/lessons/42840
+function solution(answers) {
+  //     let NumOfAnswer = [0,0,0];
+  //     const p1 = [1, 2, 3, 4, 5]
+  //     const p2 = [2, 1, 2, 3, 2, 4, 2, 5]
+  //     const p3 = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
+      
+      
+  //     answers.forEach((answer,i) => {
+  //         if (answer === p1[i%p1.length]) NumOfAnswer[0]++
+  //         if (answer === p2[i%p2.length]) NumOfAnswer[1]++
+  //         if (answer === p3[i%p3.length]) NumOfAnswer[2]++
+  //     } )
+  
+  //     const maxNum = Math.max(...NumOfAnswer);
+  //     const maxPeople = []
+  //     NumOfAnswer.forEach((num,i) => maxNum === num ? maxPeople.push(i+1) : null)
+  //     return maxPeople;
+     
+      
+      // 코드캠프 강사님이 메서드만 이용하여 푼 방식
+      const answerTable = [
+          // 1번 수포자가 찍는 방식
+          [ 1, 2, 3, 4, 5 ], // 5개의 패턴
+          // 2번 수포자가 찍는 방식
+          [ 2, 1, 2, 3, 2, 4, 2, 5 ], // 8개의 패턴
+          // 3번 수포자가 찍는 방식
+          [ 3, 3, 1, 1, 2, 2, 4, 4, 5, 5 ] // 10개의 패턴
+      ]
+      
+      const scoreList = answerTable.map((el, i) => { 
+          const score = answers.reduce((acc, cur, j) => {
+              // console.log(acc, cur, el[j % el.length])
+              return acc + (el[j % el.length] === cur ? 1 : 0)
+          },0)
+          // console.log(score)
+          
+          return {student: i+1, score}
+      });
+      // console.log(scoreList)
+      
+      const biggest = Math.max(...scoreList.map(el => el.score))
+      return scoreList.filter(el => biggest===el.score ?  el.student : null).map(el => el.student)    
+      
+  }
+
+// Map 이용해 내가 푼 방식
+  function solution(answers) {
+    // submitPatterns
+    const sp1 = [1, 2, 3, 4, 5];
+    const sp2 = [2, 1, 2, 3, 2, 4, 2, 5],
+          sp3 = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
+    
+    const rankerIdxs = new Map()
+    answers.forEach((answer, i) => {
+        if (sp1[i%sp1.length] == answer)
+            rankerIdxs.set(1, (rankerIdxs.get(1) || 0) + 1)
+        if (sp2[i%sp2.length] == answer)
+            rankerIdxs.set(2, (rankerIdxs.get(2) || 0) + 1)
+        if (sp3[i%sp3.length] == answer)
+            rankerIdxs.set(3, (rankerIdxs.get(3) || 0) + 1)
+    })
+    
+    // console.log(rankerIdxs, Math.max(...rankerIdxs.values()))
+    const max = Math.max(...rankerIdxs.values())
+    return Array.from(rankerIdxs.entries()).sort((a,b) => a[0]-b[0]).filter(([key, value]) => value === max).map(el => el[0])
+}
+
+// Map 대체 객체를 이용해 내가 푼 방식
+function solution(answers) {
+    const submitPatterns = [
+        [1, 2, 3, 4, 5],
+        [2, 1, 2, 3, 2, 4, 2, 5],
+        [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
+    ]
+    
+    const rankerIdxs = [0,0,0]
+    answers.forEach((answer, i) => {
+        if (submitPatterns[0][i%5] == answer)
+            rankerIdxs[0]++
+        if (submitPatterns[1][i%8] == answer)
+            rankerIdxs[1]++
+        if (submitPatterns[2][i%10] == answer)
+            rankerIdxs[2]++
+    })
+    console.log(rankerIdxs, Math.max(...rankerIdxs))
+    const max = Math.max(...rankerIdxs)
+    
+    let answer = []
+    rankerIdxs.forEach((answerCnt, i) => {
+        if (answerCnt === max)
+            answer.push(i+1)
+    })
+    
+    return answer
+}
