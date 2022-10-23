@@ -28,10 +28,11 @@ function quickSort(arr, isMutable=true, left=0, right=arr.length-1) {
 
     return arr;
   } else { // Immutable == non-inplace
-    const leftArr = quickSort(arr.slice(left, partitionIdx), isMutable)
-    const rightArr = quickSort(arr.slice(partitionIdx, right+1), isMutable)
+    const leftArr = quickSort(arr.slice(0, pivotIdx), isMutable)
+    const rightArr = quickSort(arr.slice(pivotIdx), isMutable)
   
-    return [...leftArr, ...rightArr]
+    // return [...leftArr, ...rightArr]
+    return leftArr.concat(rightArr)
   }
 }
 
@@ -72,6 +73,17 @@ function divide(array, left, right) {
 //     input: [100, -3, 2, 4, 6, 9, 1, 2, 5, 3, 23],
 //     answer: [-3, 1, 2, 2, 3, 4, 5, 6, 9, 23, 100],
 //   },
+
+// 추후에 안보고 생객했었던 검증용 데이터들
+// {input: [0] , answer: [0]},
+// {input: [1,1] , answer: [1,1]},
+// {input: [-3] , answer: [-3]},
+// {input: [-2, -4] , answer: [-4, -2]},
+// {input: [3,2,1] , answer: [1,2,3]},
+// {input: [3,1,2] , answer: [1,2,3]},
+// {input: [3,3,2,1] , answer: [1,2,3,3]},
+// {input: [3,2,3,1 ] , answer: [1,2,3,3]},
+// {input: [100, -3, 0,1,5,2] , answer: [-3, 0, 1,2,5,100]},
 // ];
 
 
