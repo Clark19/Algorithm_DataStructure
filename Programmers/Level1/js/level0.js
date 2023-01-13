@@ -43,3 +43,20 @@ function lcm(a, b, gcd) {
   // return gcm * a/gcm * b/gcm  // 불필요 연산 중복됨
   return (a * b) / gcd;
 }
+
+// 피자 나눠 먹기 (3) - https://school.programmers.co.kr/learn/courses/30/lessons/120816?language=javascript
+function solution(slice, n) {
+  //     let cnt = 1
+  //     while (slice * cnt < n) {
+  //         cnt++
+  //     }
+
+  //     return cnt;
+
+  return Math.ceil(n / slice);
+}
+
+// 배열의 평균값 https://school.programmers.co.kr/learn/courses/30/lessons/120817?language=javascript
+function solution(numbers) {
+  return numbers.reduce((acc, cur) => acc + cur, 0) / numbers.length;
+}
