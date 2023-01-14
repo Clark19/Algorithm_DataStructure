@@ -60,3 +60,38 @@ function solution(slice, n) {
 function solution(numbers) {
   return numbers.reduce((acc, cur) => acc + cur, 0) / numbers.length;
 }
+
+// 5일차
+// 옷가게 할인 받기 https://school.programmers.co.kr/learn/courses/30/lessons/120818
+function solution(price) {
+  let answer = 0;
+  let discount = 1.0;
+
+  if (price >= 500000) discount = 0.8;
+  else if (price >= 300000) discount = 0.9;
+  else if (price >= 100000) discount = 0.95;
+
+  return Math.trunc(price * discount);
+}
+
+// 아이스 아메리카노 https://school.programmers.co.kr/learn/courses/30/lessons/120819
+function solution(money) {
+  let answer = [];
+  answer.push(Math.trunc(money / 5500));
+  answer.push(money % 5500);
+  return answer;
+}
+
+// 나이 출력 https://school.programmers.co.kr/learn/courses/30/lessons/120820
+function solution(age) {
+  return 2022 - age + 1;
+}
+
+// 배열 뒤집기
+function solution(num_list) {
+  let answer = [];
+  for (let i = num_list.length - 1; i >= 0; i--) answer.push(num_list[i]);
+
+  return answer;
+  // return num_list.reverse() // mutable : 원본 배열을 건드리는 함수
+}
