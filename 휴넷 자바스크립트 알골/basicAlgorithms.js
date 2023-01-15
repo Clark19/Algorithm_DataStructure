@@ -122,3 +122,30 @@
     console.log(`랭킹${rankings[i]}: ${score}점`);
   });
 })();
+
+
+const swap = (arr, i, j) => {
+  [arr[i], arr[j]] = [arr[j], arr[i]]
+}
+
+// 선택 정렬 = Selection Sort
+(() => {
+  // init
+  console.log(1)
+  // input: Data structure(Array, List, Stack, Queue, Tree, DB, ...)
+  const data = [3, 2, 1, 5, 4] // 비정렬 데이터
+  const N = data.length // 의사코드(슈도코드) (공통의) 형태로 알고리즘을 표현하기 위함
+  console.log(2)
+  // process
+  for (let i=0; i<N-1; i++) {
+    for (let j=i+1; j<N; j++) {
+      if (data[j] < data[i]) { // 부등호 방향에 따라 오름차순(<), 내림차순(>) 둘 중 하나로 정렬 됨
+        swap(data, i, j)
+      }
+    }
+  }
+  console.log(3)
+  
+  // output: UI (Console, Desktop, Web, Mobile)
+  console.log(`* 선택 정렬: ${data}`)
+})();
