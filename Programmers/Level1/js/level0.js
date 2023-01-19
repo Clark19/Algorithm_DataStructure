@@ -95,3 +95,13 @@ function solution(num_list) {
   return answer;
   // return num_list.reverse() // mutable : 원본 배열을 건드리는 함수
 }
+
+// 6일차
+// 문자열 뒤집기 https://school.programmers.co.kr/learn/courses/30/lessons/120821
+function solution(my_string) {
+  let answer = "";
+  for (let i = my_string.length - 1; i >= 0; i--) {
+    answer += my_string[i];
+  }
+  return answer;
+}
