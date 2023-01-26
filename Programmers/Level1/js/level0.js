@@ -93,7 +93,7 @@ function solution(num_list) {
   for (let i = num_list.length - 1; i >= 0; i--) answer.push(num_list[i]);
 
   return answer;
-  // return num_list.reverse() // mutable : 원본 배열을 건드리는 함수
+  // return num_list.reaasverse() // mutable : 원본 배열을 건드리는 함수
 }
 
 // 6일차
@@ -103,5 +103,18 @@ function solution(my_string) {
   for (let i = my_string.length - 1; i >= 0; i--) {
     answer += my_string[i];
   }
+  return answer;
+}
+
+//
+
+// 짝수 홀수 개수 https://school.programmers.co.kr/learn/courses/30/lessons/120822
+function solution(num_list) {
+  // let answer = [0, 0]; // [0] 짝, [1] 홀 카운트
+  // num_list.forEach(el => el%2 ? answer[1]++: answer[0]++)
+  // return answer;
+
+  let answer = [0, 0];
+  num_list.forEach((el) => answer[el % 2]++);
   return answer;
 }
