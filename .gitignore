@@ -4,3 +4,4 @@ BackJoon/Solved.ac.C1.py
 Elice/DS_Algol.ipynb
 **/*.idea
 node_modules
+.DS_Store

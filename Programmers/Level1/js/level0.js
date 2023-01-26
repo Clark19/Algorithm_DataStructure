@@ -106,7 +106,17 @@ function solution(my_string) {
   return answer;
 }
 
-//
+// 직각삼각형 출력하기 https://school.programmers.co.kr/learn/courses/30/lessons/120822
+function solution(n) {
+  for (let i = 1; i <= n; i++) {
+    // let s = ""
+    // for (let j=1; j<=i; j++)
+    //     s += "*"
+    // console.log(s)
+    // s = ""
+    console.log("*".repeat(i));
+  }
+}
 
 // 짝수 홀수 개수 https://school.programmers.co.kr/learn/courses/30/lessons/120822
 function solution(num_list) {
@@ -117,4 +127,11 @@ function solution(num_list) {
   let answer = [0, 0];
   num_list.forEach((el) => answer[el % 2]++);
   return answer;
+}
+
+// 문자 반복 출력하기 https://school.programmers.co.kr/learn/courses/30/lessons/120822
+function solution(my_string, n) {
+  // return my_string.split("").map(el => el.repeat(n)).join("");
+  // return [...my_string].map(el => el.repeat(n)).join("")
+  return [...my_string].reduce((acc, cur) => acc + cur.repeat(n), "");
 }
