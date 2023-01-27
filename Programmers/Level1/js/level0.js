@@ -135,3 +135,26 @@ function solution(my_string, n) {
   // return [...my_string].map(el => el.repeat(n)).join("")
   return [...my_string].reduce((acc, cur) => acc + cur.repeat(n), "");
 }
+
+// 7일차
+// 특정 문자 제하기 https://school.programmers.co.kr/learn/courses/30/lessons/120822
+function solution(my_string, letter) {
+  // return my_string.replaceAll(letter, "");
+
+  // const regexp = new RegExp(letter, "g");
+  // return my_string.replace(regexp, "")
+
+  return my_string.split(letter).join("");
+}
+
+// 각도기 https://school.programmers.co.kr/learn/courses/30/lessons/120822
+function solution(angle) {
+  let answer = 0;
+
+  if (angle === 180) answer = 4;
+  if (90 < angle && angle < 180) answer = 3;
+  if (angle === 90) answer = 2;
+  if (0 < angle && angle < 90) answer = 1;
+
+  return answer;
+}
