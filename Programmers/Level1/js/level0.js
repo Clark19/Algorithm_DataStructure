@@ -1,6 +1,6 @@
 /** 프로그래머스 레벨 0 자바스크립트로 푼거 */
 
-// 4일차
+// 4일차 수학, 배열
 // 피자 나눠 먹기 (1) - https://school.programmers.co.kr/learn/courses/30/lessons/120814
 function solution(n) {
   // return Math.ceil(n / 7) // 가장 단순하면서 최적화 풀이
@@ -61,7 +61,7 @@ function solution(numbers) {
   return numbers.reduce((acc, cur) => acc + cur, 0) / numbers.length;
 }
 
-// 5일차
+// 5일차 수학, 배열
 // 옷가게 할인 받기 https://school.programmers.co.kr/learn/courses/30/lessons/120818
 function solution(price) {
   let answer = 0;
@@ -96,7 +96,7 @@ function solution(num_list) {
   // return num_list.reaasverse() // mutable : 원본 배열을 건드리는 함수
 }
 
-// 6일차
+// 6일차 문자열, 반복문, 출력, 배열, 조건문
 // 문자열 뒤집기 https://school.programmers.co.kr/learn/courses/30/lessons/120821
 function solution(my_string) {
   let answer = "";
@@ -106,7 +106,7 @@ function solution(my_string) {
   return answer;
 }
 
-// 직각삼각형 출력하기 https://school.programmers.co.kr/learn/courses/30/lessons/120822
+// 직각삼각형 출력하기 https://school.programmers.co.kr/learn/courses/30/lessons/120823
 function solution(n) {
   for (let i = 1; i <= n; i++) {
     // let s = ""
@@ -118,7 +118,7 @@ function solution(n) {
   }
 }
 
-// 짝수 홀수 개수 https://school.programmers.co.kr/learn/courses/30/lessons/120822
+// 짝수 홀수 개수 https://school.programmers.co.kr/learn/courses/30/lessons/120824
 function solution(num_list) {
   // let answer = [0, 0]; // [0] 짝, [1] 홀 카운트
   // num_list.forEach(el => el%2 ? answer[1]++: answer[0]++)
@@ -129,15 +129,15 @@ function solution(num_list) {
   return answer;
 }
 
-// 문자 반복 출력하기 https://school.programmers.co.kr/learn/courses/30/lessons/120822
+// 문자 반복 출력하기 https://school.programmers.co.kr/learn/courses/30/lessons/120825
 function solution(my_string, n) {
   // return my_string.split("").map(el => el.repeat(n)).join("");
   // return [...my_string].map(el => el.repeat(n)).join("")
   return [...my_string].reduce((acc, cur) => acc + cur.repeat(n), "");
 }
 
-// 7일차
-// 특정 문자 제하기 https://school.programmers.co.kr/learn/courses/30/lessons/120822
+// 7일차 문자열, 조건문, 수학, 반복문
+// 특정 문자 제하기 https://school.programmers.co.kr/learn/courses/30/lessons/120826
 function solution(my_string, letter) {
   // return my_string.replaceAll(letter, "");
 
@@ -147,7 +147,7 @@ function solution(my_string, letter) {
   return my_string.split(letter).join("");
 }
 
-// 각도기 https://school.programmers.co.kr/learn/courses/30/lessons/120822
+// 각도기 https://school.programmers.co.kr/learn/courses/30/lessons/120829
 function solution(angle) {
   let answer = 0;
 
@@ -158,3 +158,28 @@ function solution(angle) {
 
   return answer;
 }
+
+// 양꼬치 https://school.programmers.co.kr/learn/courses/30/lessons/120830
+function solution(n, k) {
+  // return 12000*n + 2000*(k - Math.trunc(n/10));
+  return 12000 * n + 2000 * (k - ~~(n / 10));
+}
+
+// 짝수의 합 https://school.programmers.co.kr/learn/courses/30/lessons/120831
+function solution(n) {
+  // let sum = 0;
+  // for (let i=2; i<=n ; i += 2) {
+  //     sum += i
+  // }
+  // return sum;
+
+  // return Array(n).fill(1)
+  //     .map((_, i) => ++i)
+  //     .filter(el => el%2 == 0)
+  //     .reduce((acc, cur) => acc + cur, 0)
+
+  return ((~~(n / 2) * (2 + n)) / 2) | 0;
+}
+
+// Day 8 배열, 구현, 수학
+// 배열 자르기 https://school.programmers.co.kr/learn/courses/30/lessons/120833
