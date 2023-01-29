@@ -183,3 +183,8 @@ function solution(n) {
 
 // Day 8 배열, 구현, 수학
 // 배열 자르기 https://school.programmers.co.kr/learn/courses/30/lessons/120833
+function solution(numbers, num1, num2) {
+  return numbers.slice(num1, num2 + 1);
+}
+
+// 외계행성의 나이 https://school.programmers.co.kr/learn/courses/30/lessons/120834
