@@ -188,3 +188,18 @@ function solution(numbers, num1, num2) {
 }
 
 // 외계행성의 나이 https://school.programmers.co.kr/learn/courses/30/lessons/120834
+function solution(age) {
+  // return String(age).split("").map(numStr => "abcdefghij"[numStr]).join("");
+
+  // return String(age).split("").map(numStr => String.fromCharCode(97+Number(numStr)) ).join("")
+
+  return age.toString().replace(/./g, (n) => "abcdefghij"[n]);
+}
+
+// 진료 순서 정하기 https://school.programmers.co.kr/learn/courses/30/lessons/120835
+function solution(emergency) {
+  // let sortedEmergecy = [...emergency].sort((a,b) => b-a)
+  // same immutable sort array
+  let sortedEmergecy = emergency.slice().sort((a, b) => b - a);
+  return emergency.map((n) => sortedEmergecy.indexOf(n) + 1);
+}
