@@ -222,3 +222,49 @@ function solution(n) {
 
   return ++answer;
 }
+
+// Day 9 문자열, 구현, 수학
+// 개미 군단 https://school.programmers.co.kr/learn/courses/30/lessons/120837
+function solution(hp) {
+  let answer = Math.trunc(hp / 5);
+  answer += Math.trunc((hp % 5) / 3);
+  answer += Math.trunc(((hp % 5) % 3) / 1);
+
+  return answer;
+}
+
+//모스부호 (1) https://school.programmers.co.kr/learn/courses/30/lessons/120838
+function solution(letter) {
+  morse = {
+    ".-": "a",
+    "-...": "b",
+    "-.-.": "c",
+    "-..": "d",
+    ".": "e",
+    "..-.": "f",
+    "--.": "g",
+    "....": "h",
+    "..": "i",
+    ".---": "j",
+    "-.-": "k",
+    ".-..": "l",
+    "--": "m",
+    "-.": "n",
+    "---": "o",
+    ".--.": "p",
+    "--.-": "q",
+    ".-.": "r",
+    "...": "s",
+    "-": "t",
+    "..-": "u",
+    "...-": "v",
+    ".--": "w",
+    "-..-": "x",
+    "-.--": "y",
+    "--..": "z",
+  };
+  // return letter.split(" ").map(el => morse[el]).join("");
+  return letter.split(" ").reduce((prev, cur) => prev + morse[cur], "");
+}
+
+// 가위 바위 보 https://school.programmers.co.kr/learn/courses/30/lessons/120839
