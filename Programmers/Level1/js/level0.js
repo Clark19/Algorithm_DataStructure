@@ -268,3 +268,23 @@ function solution(letter) {
 }
 
 // 가위 바위 보 https://school.programmers.co.kr/learn/courses/30/lessons/120839
+function solution(rsp) {
+  let GaBaBo = { 2: 0, 0: 5, 5: 2 };
+  return rsp.split("").reduce((prev, cur) => prev + GaBaBo[cur], "");
+}
+
+// 구슬을 나누는 경우의 수 https://school.programmers.co.kr/learn/courses/30/lessons/120840
+function factorial(n) {
+  // if (n < 0) return;
+  // if (n < 2) return 1;
+  // return n * factorial(n - 1);
+  let sum = BigInt(1);
+  for (let i = 2; i <= n; i++) sum *= BigInt(i);
+
+  return sum;
+}
+
+function solution(balls, share) {
+  // nCr = n! / (n-r)!r!
+  return factorial(balls) / (factorial(balls - share) * factorial(share));
+}
