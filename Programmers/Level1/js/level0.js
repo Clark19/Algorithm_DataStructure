@@ -223,7 +223,7 @@ function solution(n) {
   return ++answer;
 }
 
-// Day 9 문자열, 구현, 수학
+// Day 9 수학, 문자열, 해시, 완전탐색, 조건문
 // 개미 군단 https://school.programmers.co.kr/learn/courses/30/lessons/120837
 function solution(hp) {
   let answer = Math.trunc(hp / 5);
@@ -283,16 +283,17 @@ function factorial(n) {
 
   return sum;
 }
-
 function solution(balls, share) {
   // nCr = n! / (n-r)!r!
   return factorial(balls) / (factorial(balls - share) * factorial(share));
 }
 
+// Day 10 조건문, 배열, 수학, 시뮬레이션
+//점의 위치 구하기
 function solution(dot) {
-  let x = new Set(dot[0] > 0 ? [1, 4] : [2, 3]);
-  let y = new Set(dot[1] > 0 ? [1, 2] : [3, 4]);
-  let a = x & y;
-  console.log(a);
-  return a;
+  let x = dot[0] > 0 ? [1, 4] : [2, 3];
+  let y = dot[1] > 0 ? [1, 2] : [3, 4];
+  let interSection = x.filter((n) => y.indexOf(n) >= 0);
+
+  return interSection[0];
 }
