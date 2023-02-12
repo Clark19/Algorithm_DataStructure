@@ -288,3 +288,11 @@ function solution(balls, share) {
   // nCr = n! / (n-r)!r!
   return factorial(balls) / (factorial(balls - share) * factorial(share));
 }
+
+function solution(dot) {
+  let x = new Set(dot[0] > 0 ? [1, 4] : [2, 3]);
+  let y = new Set(dot[1] > 0 ? [1, 2] : [3, 4]);
+  let a = x & y;
+  console.log(a);
+  return a;
+}
