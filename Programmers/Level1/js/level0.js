@@ -297,3 +297,56 @@ function solution(dot) {
 
   return interSection[0];
 }
+
+// 2차원으로 만들기
+function solution(num_list, n) {
+  // 방식1.
+  // const len = Math.ceil(num_list.length / n)
+  // let answer = Array();
+  // let k = 0;
+  // for (let i = 0; i < len; i++) {
+  //   answer[i] = [];
+  //   for (let j = 0; j < n; j++) {
+  //     answer[i].push(num_list[k++]);
+  //   }
+  // }
+  //   return answer;
+
+  // 방식2. - mutable
+  const arr = [];
+  while (num_list.length) {
+    arr.push(num_list.splice(0, n));
+  }
+
+  // 방식3 - immutable
+  // for (let i=0; i<num_list.length; i += n) {
+  //     arr.push(num_list.slice(i, i+n))
+  // }
+
+  return arr;
+}
+
+// 공 던지기 https://school.programmers.co.kr/learn/courses/30/lessons/120843?language=javascript
+function solution(numbers, k) {
+  return numbers[((k - 1) * 2) % numbers.length];
+}
+
+// 배열 회전시키기 https://school.programmers.co.kr/learn/courses/30/lessons/120844?language=javascript
+function solution(numbers, direction) {
+  // const answer = [];
+  // if (direction === "right") {
+  //     answer.push(numbers.at(-1))
+  //     answer.push(...numbers.slice(0,-1))
+  // } else {
+  //     answer.push(...numbers.slice(1))
+  //     answer.push(numbers.at(0))
+  // }
+  // return answer;
+
+  if (direction === "right") {
+    numbers.unshift(numbers.pop());
+  } else {
+    numbers.push(numbers.shift());
+  }
+  return numbers;
+}
