@@ -359,3 +359,65 @@ function solution(box, n) {
   answer *= Math.floor(box[2] / n);
   return answer;
 }
+
+// 합성수 찾기 https://school.programmers.co.kr/learn/courses/30/lessons/120846?language=javascript
+const hasYaksu = (n) => {
+  for (let i = 2; i < n; i++) {
+    if (n % i === 0) return true;
+  }
+  return false;
+};
+function solution(n) {
+  var answer = 0;
+  for (let i = 2; i <= n; i++) {
+    if (hasYaksu(i)) answer++;
+  }
+  return answer;
+}
+
+// 최댓값 만들기 (1) https://school.programmers.co.kr/learn/courses/30/lessons/120847
+function solution(numbers) {
+  //     let max1 = Math.max(...numbers);
+  //     numbers.splice(numbers.indexOf(max1), 1)
+  //     let max2 = Math.max(...numbers)
+
+  //     return max1 * max2;
+
+  const [max1, max2] = numbers.sort((a, b) => b - a);
+  return max1 * max2;
+}
+
+// 팩토리얼 https://school.programmers.co.kr/learn/courses/30/lessons/120848?language=javascript
+function solution(n) {
+  var answer = 1;
+  for (let i = 2; i <= n; i++) {
+    answer *= i;
+    if (answer >= n) {
+      if (answer == n) return i;
+      return --i;
+    }
+  }
+
+  return answer;
+}
+
+// Day 12 문자열, 정렬, 사칙연산, 수학
+// 모음 제거 https://school.programmers.co.kr/learn/courses/30/lessons/120849
+function solution(my_string) {
+  const mo = ["a", "e", "i", "o", "u"];
+  // let answer = my_string.split("").filter(el => !mo.includes(el)).join("");
+  // let answer = my_string.split("").reduce((prev, cur) => prev + (!mo.includes(cur) ? cur : ""), "");
+  let answer = my_string.replace(/[aeiou]/g, "");
+  return answer;
+}
+
+// 문자열 정렬하기 (1) https://school.programmers.co.kr/learn/courses/30/lessons/120850?language=javascript
+function solution(my_string) {
+  let regex = /\d/g;
+  // let ret = [...my_string.matchAll(regex)].map(el => parseInt(el[0])).sort((a,b) => a-b)
+  let ret = my_string
+    .match(regex)
+    .map((el) => parseInt(el))
+    .sort((a, b) => a - b);
+  return ret;
+}
