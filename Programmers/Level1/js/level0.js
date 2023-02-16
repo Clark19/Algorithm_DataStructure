@@ -412,6 +412,7 @@ function solution(my_string) {
 }
 
 // 문자열 정렬하기 (1) https://school.programmers.co.kr/learn/courses/30/lessons/120850?language=javascript
+// 문자열 안의 숫자들만 추출해서 오름차순으로 정렬하는 문제.
 function solution(my_string) {
   let regex = /\d/g;
   // let ret = [...my_string.matchAll(regex)].map(el => parseInt(el[0])).sort((a,b) => a-b)
@@ -420,4 +421,10 @@ function solution(my_string) {
     .map((el) => parseInt(el))
     .sort((a, b) => a - b);
   return ret;
+}
+
+// 숨어있는 숫자의 덧셈 (1) https://school.programmers.co.kr/learn/courses/30/lessons/120851
+function solution(my_string) {
+  return my_string.match(/\d/g).reduce((acc, cur) => acc + parseInt(cur), 0);
+  // return Array.from(my_string.replace(/[^\d]/g, "")).reduce((acc, cur) => acc + parseInt(cur), 0);
 }
