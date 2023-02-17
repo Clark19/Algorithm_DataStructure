@@ -428,3 +428,36 @@ function solution(my_string) {
   return my_string.match(/\d/g).reduce((acc, cur) => acc + parseInt(cur), 0);
   // return Array.from(my_string.replace(/[^\d]/g, "")).reduce((acc, cur) => acc + parseInt(cur), 0);
 }
+
+// 소인수분해 https://school.programmers.co.kr/learn/courses/30/lessons/120852
+function solution(n) {
+  const primes = eratos(n);
+  let answer = [];
+  let b = n;
+  let p = 0;
+  for (let i = 0; i < primes.length; i++) {
+    p = primes[i];
+    if (b % p !== 0) continue;
+
+    b = b / p;
+    answer.push(p);
+    if (b !== 1) i--;
+    else break;
+  }
+
+  return [...new Set(answer)];
+}
+// 에라토스테네스의 체 = 소수 갯수 구하기 또는 소수 구하기
+function eratos(num) {
+  let sieve = Array(num + 1).fill(1);
+  (sieve[0] = 0), (sieve[1] = 0);
+  for (let i = 2; i * i <= num; i++) {
+    for (let j = i * i; j <= num; j += i) {
+      sieve[j] = 0;
+    }
+  }
+  // console.log(sieve)
+  let primes = [];
+  sieve.forEach((el, i) => (el ? primes.push(i) : null));
+  return primes;
+}
