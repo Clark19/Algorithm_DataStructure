@@ -499,3 +499,32 @@ function solution(sides) {
   sides.sort((a, b) => a - b);
   return sides[2] < sides[0] + sides[1] ? 1 : 2;
 }
+
+// Day 14 조건문, 반복문, 시뮬레이션, 문자열
+// 가까운 수 https://school.programmers.co.kr/learn/courses/30/lessons/120890?language=javascript
+function solution(array, n) {
+  const gaps = array.sort((a,b) => a-b).map(num => Math.abs(n-num))
+  return array[gaps.indexOf(Math.min(...gaps))];
+}
+
+// 369게임 https://school.programmers.co.kr/learn/courses/30/lessons/120891?language=javascript
+function solution(order) {
+  const m = order.toString().match(/[369]/g)
+  return m ? m.length : 0
+}
+
+// 암호 해독 https://school.programmers.co.kr/learn/courses/30/lessons/120892
+function solution(cipher, code) {
+  return Array.from(cipher).filter((ch,i) => i%code+1 === code).join("")
+}
+
+// 대문자와 소문자 https://school.programmers.co.kr/learn/courses/30/lessons/120893?language=javascript
+function solution(my_string) {
+  return my_string.split("").map(ch => ch.toUpperCase() == ch ? ch.toLowerCase() : ch.toUpperCase()).join("");
+  
+  // return my_string.split("").reduce((acc,cur) => acc + (cur.toUpperCase() == cur ? cur.toLowerCase() : cur.toUpperCase()), "")
+  
+  // let answer = ""
+  // for (const c of my_string) answer += c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()
+  // return answer
+}
