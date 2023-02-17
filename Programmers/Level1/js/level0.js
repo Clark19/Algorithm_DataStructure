@@ -461,3 +461,41 @@ function eratos(num) {
   sieve.forEach((el, i) => (el ? primes.push(i) : null));
   return primes;
 }
+
+// Day 13 문자열, 배열, 사칙연산, 수학, 조건문
+// 컨트롤 제트 https://school.programmers.co.kr/learn/courses/30/lessons/120853
+function solution(s) {
+  s = s.split(" ");
+  var answer = 0;
+  let el = 0;
+  let last = "";
+  while (s.length) {
+    el = s.pop();
+    if (el !== "Z") {
+      if (last !== "Z") answer += parseInt(el);
+      else last = "";
+    } else {
+      last = "Z";
+    }
+  }
+  return answer;
+}
+
+// 배열 원소의 길이 https://school.programmers.co.kr/learn/courses/30/lessons/120854?language=javascript
+function solution(strlist) {
+  return strlist.map((el) => el.length);
+}
+
+// 중복된 문자 제거 https://school.programmers.co.kr/learn/courses/30/lessons/120888?language=javascript
+function solution(my_string) {
+  return [...new Set(my_string)].join("");
+}
+
+// 삼각형의 완성조건 (1) https://school.programmers.co.kr/learn/courses/30/lessons/120889
+function solution(sides) {
+  // const max = Math.max(...sides)
+  // sides.splice(sides.indexOf(max), 1)
+  // return  max < (sides[0]+sides[1]) ? 1: 2
+  sides.sort((a, b) => a - b);
+  return sides[2] < sides[0] + sides[1] ? 1 : 2;
+}
