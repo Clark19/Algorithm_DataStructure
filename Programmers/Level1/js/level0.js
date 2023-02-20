@@ -528,3 +528,90 @@ function solution(my_string) {
   // for (const c of my_string) answer += c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()
   // return answer
 }
+
+
+// Day15 문자열, 해시, 배열, 수학
+// 영어가 싫어요 https://school.programmers.co.kr/learn/courses/30/lessons/120894
+function solution(numbers) {
+  const numMaps = {"zero":0, "one":1, "two":2, "three":3, "four":4, "five":5, "six":6, "seven":7, "eight":8, "nine":9};
+  const regex = /zero|one|two|three|four|five|six|seven|eight|nine/g
+  // const m = numbers.match(regex)
+  // return parseInt(m.map(key => numMaps[key]).join(""))
+  return parseInt(numbers.replace(regex, key => numMaps[key]))
+}
+
+// 인덱스 바꾸기 https://school.programmers.co.kr/learn/courses/30/lessons/120895?language=javascript
+function solution(my_string, num1, num2) {
+  // var temp = my_string[num2]
+  // my_string[num2] = my_string[num1]
+  // my_string[num1] = temp
+  my_string = my_string.split('');
+  [my_string[num1], my_string[num2]] = [my_string[num2], my_string[num1]];
+  return my_string.join('');
+}
+
+// 한 번만 등장한 문자 https://school.programmers.co.kr/learn/courses/30/lessons/120896
+function solution(s) {
+  // const amap = new Map();
+  // s.split("").forEach(ch => amap.set(ch, amap.has(ch) ? amap.get(ch)+1 : 1));
+  // let answer = [];
+  // amap.forEach((v,k,m) => v === 1 ? answer.push(k) : null);
+  // return  answer.sort().join("")
+  
+  // 문자열 중 딱 한번만 나온 문자 체크후 리턴시 아래와 같은 최적화된 방식 사용 가능!
+  const answer = []
+  for (ch of s) if (s.indexOf(ch) === s.lastIndexOf(ch)) answer.push(ch)
+  return answer.sort().join("")
+}
+
+// 약수 구하기 https://school.programmers.co.kr/learn/courses/30/lessons/120897?language=javascript
+function solution(n) {
+  const answer = [];
+  for (let i=1; i*2<=n; i++) {
+      n%i === 0 ? answer.push(i) : null
+  }
+  answer[answer.length] = n
+  return answer;
+  // return Array(n).fill(0).map((_,i) => ++i).filter(v => n%v === 0)
+}
+
+
+// Day16 문자열, 수학, 배열, 조건문
+// 편지 https://school.programmers.co.kr/learn/courses/30/lessons/120898
+function solution(message) {
+  return message.length*2;
+}
+ 
+// 가장 큰 수 찾기 https://school.programmers.co.kr/learn/courses/30/lessons/120899?language=javascript
+function solution(array) {
+  const max = Math.max(...array);
+  return [max, array.indexOf(max)];
+}
+
+// 문자열 계산하기 https://school.programmers.co.kr/learn/courses/30/lessons/120902
+function solution(my_string) {   
+  let op = ""
+  let sum = 0
+  my_string.split(" ").forEach(el => {
+      if (el === "+" || el === "-" )
+          op = el
+      else {
+          if (op === "+")
+              sum += parseInt(el)
+          else if (op === "-")
+              sum -= parseInt(el)
+          else
+              sum += parseInt(el)
+      }
+          
+  })
+  return sum
+}
+
+// 배열의 유사도 https://school.programmers.co.kr/learn/courses/30/lessons/120903
+function solution(s1, s2) {
+  // let cnt = 0;
+  // s1.forEach(el => s2.forEach(n => n === el ? cnt++ : null))
+  // return cnt;
+  return s1.filter(el => s2.includes(el)).length
+}
