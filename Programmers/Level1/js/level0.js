@@ -503,41 +503,56 @@ function solution(sides) {
 // Day 14 조건문, 반복문, 시뮬레이션, 문자열
 // 가까운 수 https://school.programmers.co.kr/learn/courses/30/lessons/120890?language=javascript
 function solution(array, n) {
-  const gaps = array.sort((a,b) => a-b).map(num => Math.abs(n-num))
+  const gaps = array.sort((a, b) => a - b).map((num) => Math.abs(n - num));
   return array[gaps.indexOf(Math.min(...gaps))];
 }
 
 // 369게임 https://school.programmers.co.kr/learn/courses/30/lessons/120891?language=javascript
 function solution(order) {
-  const m = order.toString().match(/[369]/g)
-  return m ? m.length : 0
+  const m = order.toString().match(/[369]/g);
+  return m ? m.length : 0;
 }
 
 // 암호 해독 https://school.programmers.co.kr/learn/courses/30/lessons/120892
 function solution(cipher, code) {
-  return Array.from(cipher).filter((ch,i) => i%code+1 === code).join("")
+  return Array.from(cipher)
+    .filter((ch, i) => (i % code) + 1 === code)
+    .join("");
 }
 
 // 대문자와 소문자 https://school.programmers.co.kr/learn/courses/30/lessons/120893?language=javascript
 function solution(my_string) {
-  return my_string.split("").map(ch => ch.toUpperCase() == ch ? ch.toLowerCase() : ch.toUpperCase()).join("");
-  
+  return my_string
+    .split("")
+    .map((ch) => (ch.toUpperCase() == ch ? ch.toLowerCase() : ch.toUpperCase()))
+    .join("");
+
   // return my_string.split("").reduce((acc,cur) => acc + (cur.toUpperCase() == cur ? cur.toLowerCase() : cur.toUpperCase()), "")
-  
+
   // let answer = ""
   // for (const c of my_string) answer += c === c.toUpperCase() ? c.toLowerCase() : c.toUpperCase()
   // return answer
 }
 
-
 // Day15 문자열, 해시, 배열, 수학
 // 영어가 싫어요 https://school.programmers.co.kr/learn/courses/30/lessons/120894
 function solution(numbers) {
-  const numMaps = {"zero":0, "one":1, "two":2, "three":3, "four":4, "five":5, "six":6, "seven":7, "eight":8, "nine":9};
-  const regex = /zero|one|two|three|four|five|six|seven|eight|nine/g
+  const numMaps = {
+    zero: 0,
+    one: 1,
+    two: 2,
+    three: 3,
+    four: 4,
+    five: 5,
+    six: 6,
+    seven: 7,
+    eight: 8,
+    nine: 9,
+  };
+  const regex = /zero|one|two|three|four|five|six|seven|eight|nine/g;
   // const m = numbers.match(regex)
   // return parseInt(m.map(key => numMaps[key]).join(""))
-  return parseInt(numbers.replace(regex, key => numMaps[key]))
+  return parseInt(numbers.replace(regex, (key) => numMaps[key]));
 }
 
 // 인덱스 바꾸기 https://school.programmers.co.kr/learn/courses/30/lessons/120895?language=javascript
@@ -545,9 +560,9 @@ function solution(my_string, num1, num2) {
   // var temp = my_string[num2]
   // my_string[num2] = my_string[num1]
   // my_string[num1] = temp
-  my_string = my_string.split('');
+  my_string = my_string.split("");
   [my_string[num1], my_string[num2]] = [my_string[num2], my_string[num1]];
-  return my_string.join('');
+  return my_string.join("");
 }
 
 // 한 번만 등장한 문자 https://school.programmers.co.kr/learn/courses/30/lessons/120896
@@ -557,31 +572,30 @@ function solution(s) {
   // let answer = [];
   // amap.forEach((v,k,m) => v === 1 ? answer.push(k) : null);
   // return  answer.sort().join("")
-  
+
   // 문자열 중 딱 한번만 나온 문자 체크후 리턴시 아래와 같은 최적화된 방식 사용 가능!
-  const answer = []
-  for (ch of s) if (s.indexOf(ch) === s.lastIndexOf(ch)) answer.push(ch)
-  return answer.sort().join("")
+  const answer = [];
+  for (ch of s) if (s.indexOf(ch) === s.lastIndexOf(ch)) answer.push(ch);
+  return answer.sort().join("");
 }
 
 // 약수 구하기 https://school.programmers.co.kr/learn/courses/30/lessons/120897?language=javascript
 function solution(n) {
   const answer = [];
-  for (let i=1; i*2<=n; i++) {
-      n%i === 0 ? answer.push(i) : null
+  for (let i = 1; i * 2 <= n; i++) {
+    n % i === 0 ? answer.push(i) : null;
   }
-  answer[answer.length] = n
+  answer[answer.length] = n;
   return answer;
   // return Array(n).fill(0).map((_,i) => ++i).filter(v => n%v === 0)
 }
 
-
 // Day16 문자열, 수학, 배열, 조건문
 // 편지 https://school.programmers.co.kr/learn/courses/30/lessons/120898
 function solution(message) {
-  return message.length*2;
+  return message.length * 2;
 }
- 
+
 // 가장 큰 수 찾기 https://school.programmers.co.kr/learn/courses/30/lessons/120899?language=javascript
 function solution(array) {
   const max = Math.max(...array);
@@ -589,23 +603,18 @@ function solution(array) {
 }
 
 // 문자열 계산하기 https://school.programmers.co.kr/learn/courses/30/lessons/120902
-function solution(my_string) {   
-  let op = ""
-  let sum = 0
-  my_string.split(" ").forEach(el => {
-      if (el === "+" || el === "-" )
-          op = el
-      else {
-          if (op === "+")
-              sum += parseInt(el)
-          else if (op === "-")
-              sum -= parseInt(el)
-          else
-              sum += parseInt(el)
-      }
-          
-  })
-  return sum
+function solution(my_string) {
+  let op = "";
+  let sum = 0;
+  my_string.split(" ").forEach((el) => {
+    if (el === "+" || el === "-") op = el;
+    else {
+      if (op === "+") sum += parseInt(el);
+      else if (op === "-") sum -= parseInt(el);
+      else sum += parseInt(el);
+    }
+  });
+  return sum;
 }
 
 // 배열의 유사도 https://school.programmers.co.kr/learn/courses/30/lessons/120903
@@ -613,5 +622,41 @@ function solution(s1, s2) {
   // let cnt = 0;
   // s1.forEach(el => s2.forEach(n => n === el ? cnt++ : null))
   // return cnt;
-  return s1.filter(el => s2.includes(el)).length
+  return s1.filter((el) => s2.includes(el)).length;
+}
+
+// Day 17 문자열, 수학, 조건문, 배열, 사칙연산
+// 숫자 찾기 https://school.programmers.co.kr/learn/courses/30/lessons/120904
+function solution(num, k) {
+  const found = num.toString().indexOf(k);
+  return found === -1 ? -1 : found + 1;
+}
+
+// n의 배수 고르기 https://school.programmers.co.kr/learn/courses/30/lessons/120905?language=javascript
+function solution(n, numlist) {
+  return numlist.filter((num) => num % n === 0);
+  // const answer = [];
+  // numlist.forEach(num => num%n === 0 ? answer.push(num) : null)
+  // return answer
+}
+
+// 자릿수 더하기 https://school.programmers.co.kr/learn/courses/30/lessons/120906
+function solution(n) {
+  return n
+    .toString()
+    .split("")
+    .reduce((acc, cur) => acc + parseInt(cur), 0);
+}
+
+// OX퀴즈 https://school.programmers.co.kr/learn/courses/30/lessons/120907
+function solution(quiz) {
+  return quiz.map((el) => {
+    let [calc, rst] = el.split(" = ");
+    let sum = 0;
+    calc = calc.split(" ");
+    if (calc[1] === "+") sum = parseInt(calc[0]) + parseInt(calc[2]);
+    else sum = parseInt(calc[0]) - parseInt(calc[2]);
+
+    return sum === parseInt(rst) ? "O" : "X";
+  });
 }
