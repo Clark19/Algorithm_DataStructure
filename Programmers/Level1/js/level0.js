@@ -802,3 +802,63 @@ function solution(polynomial) {
 
   return rst === "" ? "0" : rst;
 }
+
+
+// Day 21 문자열, 사칙연산, 시뮬레이션, 2차원배열, 수학, 배열
+// 숨어있는 숫자의 덧셈 (2) https://school.programmers.co.kr/learn/courses/30/lessons/120864
+function solution(my_string) {
+  // const rst = my_string.match(/\d+/g)
+  // 여기선 parseInt()사용해도 됨. .match()로 뽑아서 배열에 빈문자열이 없기 때문에.
+  // return rst ? rst.reduce((acc, cur) => acc + parseInt(cur),0) : 0;
+  return my_string.split(/\D+/).reduce((acc, cur) => acc + Number(cur), 0);
+  
+  // 아래 방식처럼 Number() 대신 parseInt() 사용하면 cur이 빈문자열일때("") NaN리턴해서 제대로 처리 못함. split로 뽑으면 배열에 빈 문자열 생김.
+  // return my_string.split(/\D+/).reduce((acc, cur) => acc + parseInt(cur),0) 
+}
+
+// 안전지대 (2) https://school.programmers.co.kr/learn/courses/30/lessons/120865
+function solution(board) {
+  const bLen = board.length;
+  board.forEach((el,r, arr) => el.forEach((ia, c) => {
+      if (ia === 1) {
+          const iaLen = arr.length;
+          const rs = r-1 < 0 ? 0 : r-1;
+          const re = r+1 >= bLen ? bLen-1 : r+1;
+          const cs = c-1 < 0 ? 0 : c-1;
+          const ce = c+1 >= iaLen ? iaLen-1 : c+1;
+          for (let i=rs; i<=re; i++) {
+              for (let j=cs; j<=ce; j++) {
+                  if (arr[i][j] !== 1)
+                      arr[i][j] = 2;
+              }
+          }
+      }
+  }));
+  
+  let dZoneCnt = 0
+  board.forEach(el => el.forEach(e => e ? dZoneCnt++ : 0 ));
+  return bLen**2 - dZoneCnt
+}
+
+// 삼각형의 완성조건 (2) https://school.programmers.co.kr/learn/courses/30/lessons/120866
+function solution(sides) {
+  let max = sides[0] > sides[1] ? sides[0] : sides[1];
+  const min = sides[1] === max ? sides[0] : sides[1];
+  const rst = []
+  let x = max-min+1; 
+  while (x <= max)
+      rst.push(x++);
+  while (x < (min+max))
+      rst.push(x++)
+  
+  return rst.length;
+}
+
+// 외계어 사전 (2) https://school.programmers.co.kr/learn/courses/30/lessons/120867
+function solution(spell, dic) {
+  // const s = spell.sort().join("")
+  // const found = dic.find(el => el.split("").sort().join("") === s);
+  // return found ? 1 : 2;
+  
+  return dic.find(el => spell.every(e => el.includes(e))) ? 1 : 2;
+}
