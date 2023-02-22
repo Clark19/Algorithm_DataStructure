@@ -660,3 +660,28 @@ function solution(quiz) {
     return sum === parseInt(rst) ? "O" : "X";
   });
 }
+
+// Day 18 문자열, 수학, 조건문, 정렬\
+// 문자열안에 문자열 https://school.programmers.co.kr/learn/courses/30/lessons/120908
+function solution(str1, str2) {
+  return str1.includes(str2) ? 1 : 2;
+}
+
+// 제곱수 판별하기 https://school.programmers.co.kr/learn/courses/30/lessons/120909
+function solution(n) {
+  // return Number.isInteger(Math.sqrt(n)) ? 1 : 2;
+  return Math.sqrt(n) % 1 === 0 ? 1 : 2;
+}
+
+// 세균 증식 https://school.programmers.co.kr/learn/courses/30/lessons/120910?language=javascript
+function solution(n, t) {
+  // return 2**t*n;
+  // return n*Math.pow(2,t)
+  return n << t;
+}
+
+// 문자열 정렬하기 (2) https://school.programmers.co.kr/learn/courses/30/lessons/120911
+function solution(my_string) {
+  return [...my_string.toLowerCase()].sort().join("");
+  // return my_string.toLowerCase().split("").sort().join("");
+}
