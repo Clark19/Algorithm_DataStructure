@@ -685,3 +685,120 @@ function solution(my_string) {
   return [...my_string.toLowerCase()].sort().join("");
   // return my_string.toLowerCase().split("").sort().join("");
 }
+
+
+// Day 19 문자열, 배열, 조건문
+// 7의 개수 https://school.programmers.co.kr/learn/courses/30/lessons/120912
+function solution(array) {
+  return array.join("").split(7).length -1;
+}
+
+// 잘라서 배열로 저장하기 https://school.programmers.co.kr/learn/courses/30/lessons/120913
+function solution(my_str, n) {
+  // const answer = [];
+  // for (let i=0; i<my_str.length; i += n)
+  //     answer.push(my_str.slice(i, i+n))
+  // return answer;
+  
+  return my_str.match(new RegExp(`.{1,${n}}`, "g"));   
+}
+
+// 중복된 숫자 개수 https://school.programmers.co.kr/learn/courses/30/lessons/120914
+function solution(array, n) {
+  return array.filter(el => n === el).length;
+}
+
+// 머쓱이보다 키 큰 사람 https://school.programmers.co.kr/learn/courses/30/lessons/120915
+function solution(array, height) {
+  return array.filter(el => el > height).length;
+}
+
+
+// Day 20 수학, 시뮬레이션, 문자열, 사칙연산
+// 직사각형 넓이 구하기 https://school.programmers.co.kr/learn/courses/30/lessons/120860
+function solution(dots) {
+  const rst = dots.sort((a,b) => a[0]-b[0]); // x좌표를 기준으로 정렬
+  const w = dots[2][0] - dots[0][0]
+  const h = Math.abs(dots[1][1] - dots[0][1])
+  return w*h;
+}
+
+// 캐릭터의 좌표 구하기 https://school.programmers.co.kr/learn/courses/30/lessons/120861
+function solution(keyinput, board) {
+  const maxX = Math.trunc(board[0]/2);
+  const minX = -maxX;
+  const maxY = Math.floor(board[1]/2);
+  const minY = -maxY;
+  let x =0, y=0;
+  keyinput?.forEach(el => {
+      if (el === "right") x++
+      else if (el === "left") x--
+      else if (el === "up") y++
+      else if (el === "down") y--
+      
+      if (x < minX) x = minX;
+      else if (x > maxX) x = maxX;
+      else if (y < minY) y = minY;
+      else if (y > maxY) y = maxY;
+  });
+  
+  return [x, y];
+  
+  
+//     let key = {"right" : [1,0], "up" : [0,1], "down" : [0,-1], "left" : [-1,0]};
+//     let rslt = keyinput.map(v => key[v]).reduce((a,b) => { 
+//         if (Math.abs(a[0] + b[0]) > board[0]/2 || Math.abs(a[1] + b[1]) > board[1]/2) 
+//             return [a[0],a[1]] ; 
+
+//         return [a[0] + b[0], a[1] + b[1]];}
+//     , [0,0])
+
+//     return rslt;
+}
+
+// 최댓값 만들기 (2) https://school.programmers.co.kr/learn/courses/30/lessons/120862
+// 정렬 후 제일 앞/뒤 것이 최대 또는 최소가 됨을 이용하면 O(n^2) 보다 더 빠르게 O(n) 성능으로 구현 가능
+function solution(numbers) {
+  // 방식1. O(n^2), 더 느림
+  // let max = Number.MIN_SAFE_INTEGER;
+  // numbers.forEach(n => numbers.forEach(num => {
+  //     if (numbers.indexOf(n) === numbers.lastIndexOf(num)) return
+  //     const m = n*num;
+  //     m > max ? (max=m) : null;
+  // }));
+  // return max;
+  
+  // 방식2. O(n), 더 빠름
+  const n = numbers.sort((a,b) => a-b)
+  return Math.max(n[0]*n[1], n.at(-1)*n.at(-2))
+}
+
+// 다항식 더하기 https://school.programmers.co.kr/learn/courses/30/lessons/120863
+// ! 맞추기 여려움. 레벨 0 짜리지만 맞추면 9점 줄 정도로 다양한 케이스를 고려해야 해서 맞추기 어려운 문제.
+function solution(polynomial) {
+  let sum = {nx:0, x:0, n:0};
+  polynomial.split(" + ").forEach(el => {
+      if (!el.includes("x"))
+          sum.n += Number(el)
+      else if (el.length === 1 )
+          sum.x++
+      else
+          // sum.nx += Number(el.replace(/x/, ""))
+          sum.nx += parseInt(el)
+
+      
+  });
+  
+  let rst = "";
+  let nx = sum.nx + sum.x;
+  if (nx == 1) rst += "x";
+  else if (nx > 1) rst += `${nx}x`;
+  // when nx == 0 : rst = ""
+  
+  if (rst === "")
+      rst += sum.n !== 0 ? `${sum.n}` : "";
+  else
+      rst += sum.n !== 0 ? ` + ${sum.n}` : "";
+
+  return rst === "" ? "0" : rst;
+}
