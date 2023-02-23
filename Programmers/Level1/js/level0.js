@@ -862,3 +862,134 @@ function solution(spell, dic) {
   
   return dic.find(el => spell.every(e => el.includes(e))) ? 1 : 2;
 }
+
+
+// Day 22 dp, 수학, 조건문, 배열
+// 저주의 숫자 3 https://school.programmers.co.kr/learn/courses/30/lessons/120871
+function solution(n) {
+    let rst = 0;
+    for (let i=1; i<=n; i++) {
+        rst++
+        if (rst%3 === 0 || rst.toString().includes("3"))
+            --i;
+    }
+    return rst;
+}
+
+// 평행 https://school.programmers.co.kr/learn/courses/30/lessons/120875?language=javascript
+function solution(dots) {
+    let aPairIdx = 1;
+    const [ax1, ay1] = dots[3];
+    const length = dots.length;
+    for (let i=0; i<length-1; i++) {
+        const [ax2, ay2] = dots[i];
+        const [bx1, by1] = dots[(i+1)%3];
+        const [bx2, by2] = dots[(i+2)%3];
+
+        if ( Math.abs(ay2-ay1)/Math.abs(ax2-ax1)
+             === Math.abs(by2-by1)/Math.abs(bx2-bx1) )
+            return 1
+        
+    }
+    return 0;
+}
+
+// 겹치는 선분의 길이 https://school.programmers.co.kr/learn/courses/30/lessons/120876
+function solution(lines) {
+  /*
+  // 방식1: 선분 상의 정수들을 배열로 만들어 중복 체크하는 방식
+  let ptsOfLines = []
+  for (let i=0; i<lines.length; i++) {
+      const [start, end] = lines[i];
+      ptsOfLines.push(Array(end-start+1).fill(0).map((v,i) => start+i));
+  }
+
+  let overlapped = []
+  let overlappedPts = []
+  for (let i=0; i<ptsOfLines.length; i++) {
+      overlappedPts = ptsOfLines[i].filter(n => ptsOfLines[(i+1)%3].includes(n));
+      if (overlappedPts.length >= 2)
+          overlapped.push(overlappedPts)
+  }   
+
+  if (overlapped.length === 3) { // 세개의 선분이 겹치는 경우
+      return Math.max(...overlapped.flat())
+       - Math.min(...overlapped.flat())
+  }
+  else { // 2개 이하의 선분이 겹칠 때
+      if (overlapped.length === 0) return 0;
+      return overlapped.reduce((acc, el) => acc + Math.max(...el) - Math.min(...el), 0)
+  }
+*/
+  
+  // 방식2. 속도 문제를 떠나서 직관적인 아이디어
+  // start와 end에 해당하는 공간을 모두 채운 후에 두번 이상 채워진 건 겹쳐진 것이므로 그것의 갯수가 2 이상인 것의 갯수를 구하는 방식.
+  const line = Array(200).fill(0);
+  lines.forEach(([start, end]) => {
+      for (; start<end; start++)
+          line[100+start]++; // 시작포인트를 20으로 잡을 경우 성공 못하는 테스트 케이스 존재 함. 그래서 100으로 잡음.
+  });
+  return line.reduce((acc, cur) => cur>=2 ? acc+1 : acc,0)
+}
+
+// 유한소수 판별하기 https://school.programmers.co.kr/learn/courses/30/lessons/120877
+function solution(a, b) {
+  const gcd = (max,min) => max%min===0 ? min : gcd(min, max%min);
+  const checkDenominatorSoinsu = num => {
+      while (num%2 === 0) num /= 2;
+      while (num%5 === 0) num /= 5;
+      return num === 1 ? 1 : 2;
+  };
+  
+  return checkDenominatorSoinsu(b/gcd(b,a));
+}
+
+
+// Day 23 배열, 정렬, 문자열
+// 특이한 정렬 https://school.programmers.co.kr/learn/courses/30/lessons/120880
+function solution(numlist, n) {
+  // return numlist.sort((a,b) => {
+  //     const ma = Math.abs(n-a);
+  //     const mb = Math.abs(n-b);
+  //     if (ma < mb) return -1;
+  //     if (ma > mb) return 1;
+  //     if (ma === mb) {
+  //         return a > b ? -1 : 1;
+  //     }
+  // });
+  
+  return numlist.sort((a,b) => Math.abs(n-a) - Math.abs(n-b) || b-a)
+}
+
+// 등수 매기기 https://school.programmers.co.kr/learn/courses/30/lessons/120881
+function solution(score) {
+  const mean = score.map(([eng, math]) => (eng+math)/2)
+  let sortedMean = [...mean].sort((a,b)=>b-a);
+  return mean.map(pt => sortedMean.indexOf(pt)+1);
+}
+
+// 옹알이 (1) https://school.programmers.co.kr/learn/courses/30/lessons/120882
+function solution(babbling) {
+  const regexp = /^(aya|ye|woo|ma)+$/;
+  
+  return babbling.reduce((ans, word) => (
+    regexp.test(word) ? ++ans : ans
+  ), 0);
+}
+
+// 로그인 성공? https://school.programmers.co.kr/learn/courses/30/lessons/120883?language=javascript
+function solution(id_pw, db) {
+  // const [id, pw] = id_pw;
+  // for (const user of db) {
+  //     let [_id, _pw] = user;
+  //     if (_id === id) {
+  //         if (_pw !== pw) return "wrong pw"
+  //         return "login"
+  //     }
+  // }
+  // return "fail";
+  
+  const [id, pw] = id_pw;
+  const dbMap = new Map(db);
+  return dbMap.has(id) ? (dbMap.get(id) === pw ? "login" : "wrong pw") : "fail";
+}
