@@ -164,6 +164,93 @@ function solution(n, k) {
   // return 12000*n + 2000*(k - Math.trunc(n/10));
   return 12000 * n + 2000 * (k - ~~(n / 10));
 }
+/** [js] tilde(~)과 double tilde(~~)연산자 https://velog.io/@proshy/JS-tilde%EA%B3%BC-double-tilde%EC%97%B0%EC%82%B0%EC%9E%90
+ <tilde 연산자>는 비트연산자로 NOT의 기능을 함으로써 0과 1만 뒤바꿔 줌. 보수 연산이 아님
+ex) const a = 5;     // 0000000000000101
+console.log(~a); // 1111111111111010
+// expected output: -6
+
+const b = -3;    // 1111111111111101
+console.log(~b); // 0000000000000010
+// expected output: 2
+ 이를 이진수로 출력화고 싶으면 .toString(2)를 붙여주면 됨.
+const a = 8
+console.log(a.toString(2)) // 1000
+하지만 이렇게 했을 때 한가지 문제점이 발생한다
+const b = -8
+console.log(b.toString(2))
+1111111111111111111111111111000 이렇게 1000의 보수가 나와야 할것만 같지만 -1000으로 나와버린다. 이렇게되면 not연산자를 제대로 확인할 수 없다.
+
+이를 해결하기 위해 비트 시프트 연산자 중 >>>를 활용할 수 있다.
+
+>>> 연산자
+>>> 연산자는 >> 연산자와 비슷하지만 둘의 차이는 값이 음수 일 때 차이가 있다.
+
+mdn의 예시로 확인해보자.
+
+>> 연산자 예시
+-9 (10진수): 11111111111111111111111111110111 (2진수)
+                   --------------------------------
+-9 >> 2 (10진수): 11111111111111111111111111111101 (2진수) = -3 (10진수)
+>>> 연산자 예시
+-9 (10진수): 11111111111111111111111111110111 (2진수)
+                    --------------------------------
+-9 >>> 2 (10진수): 00111111111111111111111111111101 (2진수) = 1073741821 (10진수)
+차이는 >>연산자는 1이라면 1로 채우면서 왼쪽으로 밀지만 >>>연산자는 0으로 채우면서 민다.
+
+이 특징을 활용하여 음수 역시 2진수로 변환시킬 수 있다.
+
+이제 다시 위로 돌아가자.
+
+아래 코드와 같이 b>>>0를 활용해서 음수역시 2진수로 볼 수 있다.
+
+const b = -8
+console.log((b>>>0).toString(2)) 
+//11111111111111111111111111111000
+
+
+<double tilde(~~)연산자>
+tilde를 2번 반복해주는 것이다.
+let k = 8 이라고 했을 때 ~k는 무엇일까? -9 이다. (why? ~은 보수가 아닌 not이기 때문) 그럼 ~~k는?? 그렇다 원래대로 8이다.
+이 double tilde연산자가 어떻게 유용하게 사용되는지 알아보자.
+
+1. Math.floor()/.trunc(), parseInt() 대신 사용될 수 있다.
+숫자에 ~연산을 하게되면서 소수점들은 버려지게된다. 즉, ~~를 활용하면 Math.floor() 처럼 활용할 수 있다.
+
+Math.floor() 대신에 활용하는데 장점과 단점이 있다.
+
+장점
+속도 측면에서 ~~가 빠르다고 한다. The Mysterious Double Tilde (~~) Operation 이 블로그에 보면 크롬, Safari,iPhone XS 각각Math.floor, ~~, parseInt 의 속도를 비교한 결과가 있다.
+
+결과는 ~~ , Math.floor, parseInt 순으로 ~~가 가장 빠른 퍼포먼스를 보여줬다.
+
+단점
+코드에 ~~가 덕지덕지 있다고 상상해보자. 이해가 쉽지 않을 것이다. 복잡한 코드 또는 협업하는 과정에서는 가독성이 좋지 않기 때문에 사용하지 않는편이 좋을 것 같다.
+
+2. undefined 또는 null을 0으로 변환할 때 사용될 수 있다.
+위의 경우가 언제쓰일까 싶지만 undefined+3 => NaN 이런 상황이 자주 있었을 것이다.
+
+예시 하나만 작성해 보자.
+배열[1,1,1,2,2,3,3,3,3]을 각 숫자가 몇개인지 객체에 저장해보자.
+
+const arr = [1,1,1,2,2,3,3,3,3]
+const obj1 = {}
+
+arr.forEach(v=>{
+  if(obj1[v]) obj1[v]+=1
+  else obj1[v]=1
+})
+//obj1 {1: 3, 2: 2, 3: 4}
+위와같이 obj에 key값이 있는지 확인해주는 작업이 필요하다. 그렇지 않으면 NaN이 나올 것이다.
+
+그럼 ~~를 활용해 다시 코드를 작성해보자.
+
+const obj2 = {}
+arr.forEach(v=>obj2[v]= ~~obj2[v]+1)
+//obj2 {1: 3, 2: 2, 3: 4}
+undefined가 나올 수 있는 상황을 ~~연산자를 이용해서 간단하게 해결할 수 있다. 알고리즘 답안을 보면서 배운 연산자인 만큼 알고리즘에서 유용하게 사용할 수 있을 것 같다.
+
+*/
 
 // 짝수의 합 https://school.programmers.co.kr/learn/courses/30/lessons/120831
 function solution(n) {
@@ -993,3 +1080,115 @@ function solution(id_pw, db) {
   const dbMap = new Map(db);
   return dbMap.has(id) ? (dbMap.get(id) === pw ? "login" : "wrong pw") : "fail";
 }
+
+
+// Day 24 수학, 시뮬레이션, 문자열, 조건문, 반복문
+// 치킨 쿠폰 https://school.programmers.co.kr/learn/courses/30/lessons/120884
+function solution(chicken) {
+  //     let coupons = chicken;
+  //     let svsChk = 0;
+  //     while(coupons >= 10) {
+  //         svsChk += parseInt(coupons/10)
+  //         coupons = parseInt(coupons/10) + coupons%10
+  //     }
+       
+  //     return svsChk
+      
+      return ~~((chicken-1)/9); // == return parseInt((chicken-1)/9)
+  }
+
+  // 이진수 더하기 https://school.programmers.co.kr/learn/courses/30/lessons/120885
+  function solution(bin1, bin2) {
+    return (parseInt(bin1, 2) + parseInt(bin2, 2)).toString(2);
+}
+
+// A로 B 만들기 https://school.programmers.co.kr/learn/courses/30/lessons/120886
+function solution(before, after) {
+  //     const m = new Map()
+  //     before.split("").map(c => m.has(c) ? m.set(c,m.get(c)+1) : m.set(c, 1));
+  //     const m2 = new Map()
+  //     after.split("").map(c => m2.has(c) ? m2.set(c,m2.get(c)+1) : m2.set(c, 1));
+  
+  //     let rst = m.size === m2.size
+  //     if (!rst) return 0
+  //     m.forEach((v,k,m) => {
+  //        if (m2.get(k) !== v) {
+  //            rst = false
+  //            return
+  //        } 
+  //     });
+  //     return  rst ? 1 : 0
+      
+      return before.split("").sort().join("") === after.split("").sort().join("") ? 1 : 0;
+  }
+
+// k의 개수 https://school.programmers.co.kr/learn/courses/30/lessons/120887\
+function solution(i, j, k) {
+  // var answer = 0;
+  // const regex = new RegExp(k, "g")
+  // let m = null
+  // for (let fi=i; fi<=j; fi++) {
+  //     m = fi.toString().match(regex);
+  //     answer += m == null ? 0 : m.length;
+  // }
+  // return answer;
+  
+  let numStr = ""
+  for (i ; i<=j; i++)
+      numStr += i
+  return numStr.split(k).length - 1
+}
+
+
+// Day 25 시뮬레이션, 조건문, 수학
+// 문자열 밀기 https://school.programmers.co.kr/learn/courses/30/lessons/120921
+function solution(A, B) {
+  // A = A.split("")
+  // B = B.split("");
+  // let len = B.length;
+  // for (let i=0; i<len; i++) {        
+  //     if (B.every((v,i) => v === A[i]))
+  //         return i
+  //     A.unshift(A.pop())
+  // }
+  // return -1;
+  
+  return (B+B).indexOf(A)
+}
+
+// 종이 자르기 https://school.programmers.co.kr/learn/courses/30/lessons/120922
+function solution(M, N) {
+  return  (M-1)+(N-1)*M;
+}
+
+// 연속된 수의 합 https://school.programmers.co.kr/learn/courses/30/lessons/120923
+function solution(num, total) {
+  //     let answer = [];
+  //     let sum = 0
+  //     for (let i=-100000; i<=100000; i++) {       
+  //         for (var j=i; j<i+num; j++)
+  //             sum += j;
+              
+  //         if (total == sum) {
+  //             for (let j=i; j<i+num; j++)
+  //                 answer.push(j)
+  //             return answer
+  //         }
+          
+  //         sum = 0;
+  //         answer = [];
+  //     }
+  
+    return Array(num).fill(~~(total/num) - ~~((num-1)/2)).map((v,i) => v+i);
+}
+
+// 다음에 올 숫자 https://school.programmers.co.kr/learn/courses/30/lessons/120924
+function solution(common) {
+  //     const isArithmeticProgression = nums => (nums[0] + 2*(nums[1] - nums[0])) === nums[2] ? true : false;
+  //     const getAPGeneralTerm = (nums, n) => nums[0] + (n-1)*(nums[2]-nums[1]);
+  //     const getGSGeneralTerm = (nums, n) => nums[0] * (nums[2]/nums[1])**(n-1);
+      
+  //     return isArithmeticProgression(common) ? getAPGeneralTerm(common, common.length+1) : getGSGeneralTerm(common, common.length+1);
+      
+      return common[2]-common[1] === common[1]-common[0] ? common.pop() + common[1]-common[0] : common.pop() * common.at(-1)/common.at(-2); 
+  }
