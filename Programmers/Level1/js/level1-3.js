@@ -137,18 +137,98 @@ function solution(k, aplPerBox, score) {
 
 // 명예의 전당 (1) https://school.programmers.co.kr/learn/courses/30/lessons/138477?language=javascript
 function solution(k, score) {
+  // 방식1. 처음 푼 방식
+  // const ranking3 = [];
+  // const thirdList = [];
+  // score.forEach((v,i) => {
+  //     if (i < k) {
+  //         ranking3.push(v); 
+  //         ranking3.sort((a,b) => b-a);
+  //     }
+  //     else if (v > ranking3.at(-1) ) {
+  //         ranking3[ranking3.length-1] = v;
+  //         ranking3.sort((a,b) => b-a);
+  //     }
+  //     thirdList.push(ranking3.at(-1));              
+  // });
+  // return thirdList;
+  
+  
+  // 방식2. reduce() 사용방식.
   const ranking3 = [];
-  const thirdList = [];
-  score.forEach((v,i) => {
-      if (i < k) {
-          ranking3.push(v); 
+  return score.reduce((thirdList, scr) => {
+      if (ranking3.length < k) {
+          ranking3.push(scr);
+          ranking3.sort((a,b) => b-a);
+      } else if (scr > ranking3.at(-1)) {
+          ranking3[k-1] = scr;
           ranking3.sort((a,b) => b-a);
       }
-      else if (v > ranking3.at(-1) ) {
-          ranking3[ranking3.length-1] = v;
-          ranking3.sort((a,b) => b-a);
-      }
-      thirdList.push(ranking3.at(-1));              
-  });
-  return thirdList;
+      thirdList.push(ranking3.at(-1));
+      
+      return thirdList 
+  }, []);
 }
+
+// 로또의 최고 순위와 최저 순위 https://school.programmers.co.kr/learn/courses/30/lessons/77484?language=javascript
+function solution(lottos, win_nums) {
+  //     let correctCnt = 0;
+  //     let zeroCnt = 0;
+  //     lottos.forEach((n,i) => {
+  //         if (n === 0) {
+  //             zeroCnt++;
+  //             return;
+  //         }
+          
+  //         if (win_nums.includes(n)) correctCnt++;
+          
+  //     });
+  //     let rank = 7;
+  //     if (correctCnt === 0 || correctCnt === 1)
+  //         rank = 6
+  //     else
+  //         rank -= correctCnt
+  
+  //     const lowRank = rank;
+  //     const possibleNumCnt = win_nums.filter(n => !lottos.includes(n)).length;
+  //     const highRank = possibleNumCnt >= zeroCnt ? rank - zeroCnt : rank - possibleNumCnt;
+      
+  //     return [highRank === 0 ? 1: highRank, lowRank];
+      
+      
+    // 방식2: rank 계산 부분을 타인 코드 참고하여 rank배열로 단순화 시킨 방법.
+    const rank = [6,6,5,4,3,2,1]
+    let correctCnt = 0;
+    let zeroCnt = 0;
+    lottos.forEach((n,i) => {
+        if (n === 0) {
+            zeroCnt++;
+            return;
+        }
+        if (win_nums.includes(n)) correctCnt++;
+    });
+    
+    return [rank[correctCnt + zeroCnt], rank[correctCnt]];    
+}
+
+// 기사단원의 무기 https://school.programmers.co.kr/learn/courses/30/lessons/136798?language=javascript
+function solution(number, limit, power) {
+  const yaksuMap = {};
+  const getNumOfYaksu = n => {
+      if (yaksuMap[n]) return yaksuMap[n];
+      
+      let cnt = 0;
+      for (let i=1; i<=n/2; i++)
+          if (n%i === 0) cnt++;
+      yaksuMap[n] = ++cnt;
+      
+      return cnt;
+  };
+  
+  return Array(number).fill(0).map((_, i) => getNumOfYaksu(i+1)).reduce((acc, cur) => acc += cur > limit ? power : cur, 0);
+}
+
+const r1 = RegExp("aya|ye|woo|ma")
+console.log(r1.exec("aya"))
+const r2 = /^(aya|ye|woo|ma)+$/
+    let answer = 0
