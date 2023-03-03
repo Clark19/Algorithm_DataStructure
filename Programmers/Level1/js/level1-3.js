@@ -228,7 +228,13 @@ function solution(number, limit, power) {
   return Array(number).fill(0).map((_, i) => getNumOfYaksu(i+1)).reduce((acc, cur) => acc += cur > limit ? power : cur, 0);
 }
 
-const r1 = RegExp("aya|ye|woo|ma")
-console.log(r1.exec("aya"))
-const r2 = /^(aya|ye|woo|ma)+$/
-    let answer = 0
+// 카드 뭉치 https://school.programmers.co.kr/learn/courses/30/lessons/159994
+function solution(cards1, cards2, goal) {
+  for (const w of goal) {
+      if (cards1[0] === w) cards1.shift();
+      else if (cards2[0] === w) cards2.shift();
+      else return "No";
+  }
+
+  return "Yes";
+}
