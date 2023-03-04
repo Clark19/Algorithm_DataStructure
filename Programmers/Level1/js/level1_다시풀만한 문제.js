@@ -86,3 +86,30 @@ function solution(s) {
   
 //   return solution(s.slice(i+2), ++cnt)
 // }
+
+// 성격 유형 검사하기 https://school.programmers.co.kr/learn/courses/30/lessons/118666
+// 2022 KAKAO TECH INTERNSHIP
+function solution(survey, choices) {
+    const scores = [-100, 3,2,1,0,1,2,3];
+    const rst = {R:0,T:0, C:0,F:0, J:0,M:0, A:0,N:0}
+    survey.forEach((el, i) => {
+        const [a, b] = el.split("");
+        if (choices[i] < 4)
+            rst[a] += scores[choices[i]];
+        else
+            rst[b] += scores[choices[i]];
+    });
+    
+    let nbti = "";
+    let before = null;
+    let i = 0;
+    for (const el of Object.entries(rst)) {
+        if (i%2)
+            nbti += before[1] >= el[1] ? before[0] : el[0];
+        else
+            before = el;
+        i++
+    }
+    
+    return nbti;
+}
