@@ -100,16 +100,40 @@ function solution(survey, choices) {
             rst[b] += scores[choices[i]];
     });
     
-    let nbti = "";
+    let mbti = "";
     let before = null;
     let i = 0;
     for (const el of Object.entries(rst)) {
         if (i%2)
-            nbti += before[1] >= el[1] ? before[0] : el[0];
+            mbti += before[1] >= el[1] ? before[0] : el[0];
         else
             before = el;
         i++
     }
     
-    return nbti;
+    return mbti;
+}
+
+
+// 햄버거 만들기 https://school.programmers.co.kr/learn/courses/30/lessons/133502
+// 처음 푼 방식은 시간초과 남. 아래 풀이는 시간 초과 안남. 안보고 다시 풀어볼 것.
+function solution(ingredient) {     
+    const isEqualArray = (a,b) => a.every((v,i) => v === b[i])
+    const stack = [];
+    let cnt = 0;
+    let sLen = 0;
+    let i = 0;
+    while(i < ingredient.length) {
+        stack.push(ingredient[i++]);
+        sLen = stack.length;
+        if (sLen < 4) continue;
+            
+        if (isEqualArray(stack.slice(sLen-4, sLen), [1,2,3,1])) {
+            stack.splice(-4);
+            // stack.splice(sLen-4, 4);
+            cnt++;
+        }
+    }
+    
+    return cnt;
 }
