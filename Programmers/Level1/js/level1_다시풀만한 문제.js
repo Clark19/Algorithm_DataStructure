@@ -137,3 +137,84 @@ function solution(ingredient) {
     
     return cnt;
 }
+
+// 둘만의 암호 https://school.programmers.co.kr/learn/courses/30/lessons/155652#
+function solution(s, skip, index) {
+    // 방식1.
+    // skip = skip.split("").map(ch => ch.charCodeAt());
+    // return s.split("")
+    //         .map(ch => {
+    //             const code = ch.charCodeAt();
+    //             const arr = []
+    //             let i = 1;
+    //             while (arr.length < index) {
+    //                 if (!skip.includes( (code+i-97)%26 + 97))
+    //                     arr.push(String.fromCharCode((code+i-97)%26 +97))
+    //                 i++
+    //             }
+    //             return arr[index-1]
+    //         })
+    //         .join("");
+    
+    
+    // 방식2. 방식1에서 사용한 배열에 넣는 방식 사용하지 않고 skipCount 사용하여 성능 소량 개선.
+//     skip = skip.split("").map(ch => ch.charCodeAt());
+//     return s.split("")
+//             .map(ch => {
+//                 const code = ch.charCodeAt();
+//                 let skipCnt = 0;
+//                 let i = 1;
+//                 while (skipCnt < index) {
+//                     if (!skip.includes( (code+i-97)%26 + 97))
+//                         skipCnt++
+//                     i++
+//                 }
+                
+//                 return String.fromCharCode( (code + --i -97)%26 + 97 )
+//             })
+//             .join("");
+    
+    
+    // 방식3. 타인의 간단한 풀이 방식 참고한 후, 안보고 풀어 본 것.
+    const alpha = Array(26).fill(0).map((_,i) => String.fromCharCode('a'.charCodeAt()+i)).filter(el => !skip.split("").includes(el));
+    
+    return s.split("").map(ch => alpha[ (alpha.indexOf(ch)+index) % alpha.length ]).join("");
+}
+
+// 대충 만든 자판 https://school.programmers.co.kr/learn/courses/30/lessons/160586#
+function solution(keymap, targets) {
+    // 방식1: 직접 푼 방식
+//     return targets.map(target => {
+//         let keyCnt = 0;
+//         for (let i=0; i<target.length; i++) {
+//             let minIdx = Number.MAX_SAFE_INTEGER;
+//             let idx = -1;
+            
+//             for (let kIdx=0; kIdx<keymap.length; kIdx++) {
+//                 idx = keymap[kIdx].indexOf(target[i]);
+//                 if (idx !== -1)
+//                     minIdx = idx < minIdx ? idx : minIdx;
+                
+//                 if (kIdx === keymap.length-1 && minIdx === Number.MAX_SAFE_INTEGER && idx === -1 )
+//                     return -1;    
+//             }
+            
+//             if (minIdx !== Number.MAX_SAFE_INTEGER)
+//                 keyCnt += minIdx + 1;
+//         }
+        
+//         return keyCnt ? keyCnt : -1;
+//     });
+    
+    
+    // 방식2. 타인 소스 참조 후 간단한 방식으로 풀어 본거.
+    const keyHash = {};
+    const rst = [];
+    for (const key of keymap)
+        key.split("").forEach((ch, i) => keyHash[ch] = (keyHash[ch] < i+1) ? keyHash[ch]: i+1);
+    
+    for (const target of targets)
+        rst.push(target.split("").reduce((acc, ch, i) => acc+keyHash[ch], 0) || -1);
+    
+    return rst;
+}
