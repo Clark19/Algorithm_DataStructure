@@ -238,3 +238,24 @@ function solution(cards1, cards2, goal) {
 
   return "Yes";
 }
+
+// 바탕화면 정리 https://school.programmers.co.kr/learn/courses/30/lessons/161990?language=javascript
+function solution(wallpaper) {
+  const xArr = [];
+  const yArr = [];
+  wallpaper.forEach((row, y) => {
+      row.split("").forEach((data, x) => {
+          if (data === "#") {
+              xArr.push(x)
+              yArr.push(y)
+          }
+      });
+  });
+
+  let minX = Math.min(...xArr)
+  let maxX = Math.max(...xArr)
+  let minY = Math.min(...yArr)
+  let maxY = Math.max(...yArr)
+  
+  return [minY, minX, maxY+1, maxX+1];
+}

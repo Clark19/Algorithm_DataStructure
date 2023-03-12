@@ -218,3 +218,59 @@ function solution(keymap, targets) {
     
     return rst;
 }
+
+
+// 개인정보 수집 유효기간 https://school.programmers.co.kr/learn/courses/30/lessons/150370#
+// 2023 KAKAO BLIND RECRUITMENT
+function solution(today, terms, privacies) {
+    // 방식1. Date() 이용 방식
+//     const answer = [];
+//     today = new Date(today);
+//     today.setHours(today.getHours()+9); // 문자로 설정한 시간 보다 9시간 적게 나와서 +9시간 해줌.
+//     const termHash = {};
+//     terms.forEach(term => {
+//         const [rule, month] = term.split(" ");
+//         termHash[rule] = parseInt(month);
+//     });
+    
+//     privacies.forEach((prv, i) => {
+//         const [uDate, rule] = prv.split(" ");    
+//         const date = new Date(uDate);
+//         date.setHours(date.getHours()+9)
+//         date.setMonth(date.getMonth()+termHash[rule])
+        
+//         if (date.getDate() == 1){
+//             date.setDate(28)
+//             date.setMonth(date.getMonth()-1)
+//         } else
+//             date.setDate(date.getDate()-1)
+        
+//         if (date < today) answer.push(i+1)
+        
+//     });
+    
+//     return answer;
+
+    
+    // 방식2. 날짜를 (28일/1달)일로 모두 변환해서 풀기. 
+    // (문제 조건이 무조건 한 달이 28일.)
+    const answer = []
+    const [year, month, date] = today.split(".").map(Number)
+    const todayDates = year*12*28 + month*28 + date
+    
+    const termHash = {}
+    terms.forEach(term => {
+        const [rule, month] = term.split(" ")
+        termHash[rule] = parseInt(month);
+    })
+
+    privacies.forEach((prv, i) => {
+        let [uDate, rule] = prv.split(" ")
+        uDate = uDate.split(".").map(Number)
+        const date = uDate[0]*12*28 + uDate[1]*28 + uDate[2] + termHash[rule]*28 - 1
+        if (date < todayDates)
+            answer.push(i+1)
+    })
+    
+    return answer
+}
