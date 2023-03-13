@@ -21,3 +21,21 @@ function solution(s) {
   
 }
 
+// 숫자의 표현 https://school.programmers.co.kr/learn/courses/30/lessons/12924
+function solution(n) {
+  let cnt = 1;
+  let sum = 0;
+  for (let i=1; i<=~~(n/2); i++) {
+      sum += i;
+      
+      for (let j=i+1; sum < n; j++) {
+          sum += j;
+          if (j >= ~~(n/2)) break;
+      }
+      
+      if (sum === n) cnt++;
+      sum = 0;
+  }
+      
+  return cnt;
+}
