@@ -39,3 +39,104 @@ function solution(n) {
       
   return cnt;
 }
+
+// 카펫 https://school.programmers.co.kr/learn/courses/30/lessons/42842?language=javascript
+function solution(brown, yellow) {
+  for (let i =3; i<=Math.floor(brown/2); i++) {
+      for (let j=3; j<=i; j++) {
+          if (brown+yellow === i*j && (i-2)*(j-2) === yellow)
+              return [i, j] 
+      }
+  }
+}
+
+// 구명보트 https://school.programmers.co.kr/learn/courses/30/lessons/42885
+/* 문제 조건에 최대 2명까지만 탈 수 있다고 되있기 때문에,
+   정렬 후 최소값+최대값만 체크해보면 된다는 걸 알면 쉽게 풀리는 문제.
+*/
+function solution(people, limit) {
+  // 방식1. 맨처음 풀 다가 실패한 방식.
+//     let answer = 0;
+  
+//     // > a>b ? 1 : -1  오름차순
+//     let pWDesc = people.sort((a,b) => b-a) //a>b ? -1 : 1
+//     console.log(pWDesc)
+  
+//     let i = 0
+//     while (pWDesc.length > 0) {
+//         let w = pWDesc.shift()
+//         while (pWDesc.length > 0 ) {
+//             if ( (w + pWDesc[i])  <= limit) {
+//                 console.log(w, pWDesc[i])
+//                 answer++
+//                 delete pWDesc[i]
+//             }
+//             i++
+//         }
+//         i = 0
+//         console.log(pWDesc)
+//     }
+  
+//     // let minW = Math.min(...people)
+//     // console.log(minW)
+  
+//     // [70, 30, 50, 80, 50], 200
+//     // for (let i=0; i<people.length; )
+//     return answer;
+
+  
+  
+  // 방식2: 정렬 후 스택에 pop() 하는 방식. (풀이 본 뒤에, 몇달 후 푼 거)
+  // 밤에 어쩔땐 효율성 테스트 못하다가도 나중에 하니 통과 함.
+//     people.sort((a,b) => a-b)
+  
+//     while (people.length) {
+//         if (people[0] + people.at(-1) <= limit) {
+//             people.pop()
+//             people.shift()
+//         } else {
+//             people.pop()
+//         }
+//         cnt++;    
+//     }
+  
+//     return cnt;
+  
+  
+  // 방식3: 그냥 투 포인터 이용하는 방식이라 더 빠름. (스택 이용 x)
+  let cnt = 0;
+  people.sort((a,b) => a-b)
+  for (let i=0, j=people.length-1; i<=j; j--) {
+      if (people[i] + people[j] <= limit)
+          i++;
+      cnt++;
+  }
+  
+  return cnt;
+}
+
+// 예상 대진표 https://school.programmers.co.kr/learn/courses/30/lessons/12985?language=javascript
+function solution(n,a,b)
+{
+    // 1. 첨 푼 방식
+    // let cnt = 0;      
+    // for (let i=0; i<Math.log2(n); i++) {
+    //     a = Math.round(a/2)
+    //     b = Math.round(b/2)
+    //     cnt++
+    //     if (a === b)
+    //         return cnt
+    // }
+    // return cnt
+    
+    
+    // 간단 방식
+    let cnt = 0;   
+    while (a !== b) {
+        a = Math.round(a/2)
+        b = Math.round(b/2)
+        cnt++
+    }
+    
+    return cnt
+}
