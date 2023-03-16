@@ -140,3 +140,19 @@ function solution(n,a,b)
     
     return cnt
 }
+
+// 점프와 순간 이동 https://school.programmers.co.kr/learn/courses/30/lessons/12980?language=javascript
+function solution(n)
+{ 
+    // 방식1.
+    let cnt = 0;
+    while (n) {
+        if (n%2 === 1) cnt++;
+        n = ~~(n/2)   
+    }
+    
+    return cnt
+    
+    // 방식2. 2진수로 변환 후 1의 갯수로 푸는 방식
+    // return n.toString(2).match(/1/g).length;
+}

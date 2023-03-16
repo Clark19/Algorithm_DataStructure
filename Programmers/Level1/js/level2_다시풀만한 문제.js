@@ -65,3 +65,19 @@ function solution(s)
 
     return stack[0] ? 0 : 1;
 }
+
+// N개의 최소공배수 https://school.programmers.co.kr/learn/courses/30/lessons/12953?language=javascript
+function solution(arr) {
+    const GCD = (max, min) => max%min === 0 ? min : GCD(min, max%min);
+    const LCM = (a,b) => {
+        const gcd = GCD(a,b)
+        return (a/gcd) * (b/gcd) * gcd;
+    }
+
+    let lcm = arr.pop()
+    while (arr.length) {
+        lcm = LCM(lcm, arr.pop())
+    }
+
+    return lcm
+}
