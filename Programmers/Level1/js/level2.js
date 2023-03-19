@@ -156,3 +156,44 @@ function solution(n)
     // 방식2. 2진수로 변환 후 1의 갯수로 푸는 방식
     // return n.toString(2).match(/1/g).length;
 }
+
+// 멀리 뛰기 https://school.programmers.co.kr/learn/courses/30/lessons/12914
+function solution(n) {
+  let rst = [1,2];
+  for (let i=2; i<n; i++) {
+      rst.push(rst[i-1]+rst[i-2]%1234567)
+  }
+  
+  return n == 1 ? 1 : rst.at(-1)%1234567
+}
+
+// 귤 고르기 https://school.programmers.co.kr/learn/courses/30/lessons/138476
+function solution(k, tangerine) {
+  const rst = Object.values(tangerine.reduce((data, n, i) => {
+      data[n] = ~~data[n]+1
+      return data
+  }, {})).sort((a,b)=> a-b);
+
+  let sum = 0;
+  for (let i=1; i<=rst.length; i++) {
+      sum += rst.at(-i)
+      if (sum >= k)
+          return i
+  }
+}
+
+// 위장 https://school.programmers.co.kr/learn/courses/30/lessons/42578
+function solution(clothes) {
+  // (x+a)(x+b)(x+c) = x^3 + (a+b+c)x^2 + (ab+bc+ca)x + abc 공식에서 x=1 대입해서 (1+a)(1+b)(1+c) - 1 이용.
+  const cHash = new Map()
+  clothes.forEach(el => {
+      if (cHash.get(el[1]))
+          cHash.get(el[1]).push(el[0])
+      else 
+          cHash.set(el[1], [el[0]])
+  });
+  
+  let sum = 1;
+  cHash.forEach(el => sum *= (1 + el.length))
+  return sum - 1
+}

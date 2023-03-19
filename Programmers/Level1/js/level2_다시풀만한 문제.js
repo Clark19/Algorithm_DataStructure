@@ -81,3 +81,47 @@ function solution(arr) {
 
     return lcm
 }
+
+// [1차] 캐시 2018 KAKAO BLIND RECRUITMENT https://school.programmers.co.kr/learn/courses/30/lessons/17680#
+function solution(cacheSize, cities) {
+    const cache = []
+    let found = -1
+    if (cacheSize === 0) return cities.length * 5;
+    
+    return cities.reduce((sum, city) => {
+        city = city.toLowerCase();
+        found = cache.indexOf(city);
+        
+        if (found !== -1 ) {
+            sum += 1;
+            cache.splice(found, 1)
+        } else {
+            sum +=  5;
+            // cache size가 0이면서 cities=["LA", "LA"] 인 경우이면서, 
+            // 캐쉬사이즈 0일때 예외처리 위에서 안한경우,
+            // 캐쉬 full 체크를 여기서 하면 오류 나므로 아래에서 push 후 해야 함.
+            if (cache.length >= cacheSize)
+                cache.shift()
+        }
+        
+        cache.push(city)
+       
+        return sum
+    }, 0)
+}
+
+// 행렬의 곱셈 https://school.programmers.co.kr/learn/courses/30/lessons/12949?language=javascript
+function solution(arr1, arr2) {
+    const rst = Array(arr1.length).fill(0).map(el => []);
+    let sum = 0;
+    arr1.forEach((row,r) => {
+        for (let ar2C=0; ar2C<arr2[0].length; ar2C++) {
+            row.forEach((n, ar1C) => sum += n * arr2[ar1C][ar2C]);
+            rst[r][ar2C] = sum;
+            sum = 0;
+        }
+    });
+    
+    return rst;
+}
+
