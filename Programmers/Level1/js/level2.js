@@ -185,15 +185,21 @@ function solution(k, tangerine) {
 // 위장 https://school.programmers.co.kr/learn/courses/30/lessons/42578
 function solution(clothes) {
   // (x+a)(x+b)(x+c) = x^3 + (a+b+c)x^2 + (ab+bc+ca)x + abc 공식에서 x=1 대입해서 (1+a)(1+b)(1+c) - 1 이용.
-  const cHash = new Map()
-  clothes.forEach(el => {
-      if (cHash.get(el[1]))
-          cHash.get(el[1]).push(el[0])
-      else 
-          cHash.set(el[1], [el[0]])
-  });
+//     const cHash = new Map()
+//     clothes.forEach(el => {
+//         if (cHash.get(el[1]))
+//             cHash.get(el[1]).push(el[0])
+//         else 
+//             cHash.set(el[1], [el[0]])
+//     });
   
-  let sum = 1;
-  cHash.forEach(el => sum *= (1 + el.length))
-  return sum - 1
+//     let sum = 1;
+//     cHash.forEach(el => sum *= (1 + el.length))
+//     return sum - 1
+  
+  // 방식2. reduce 사용.
+  return Object.values(clothes.reduce((cHash, el) => {
+      cHash[el[1]] = cHash[el[1]] ? cHash[el[1]]+1 : 1;
+      return cHash;
+  }, {})).reduce((sum, el) => sum*(el+1), 1)-1;
 }

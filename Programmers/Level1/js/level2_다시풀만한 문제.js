@@ -125,3 +125,53 @@ function solution(arr1, arr2) {
     return rst;
 }
 
+// 튜플 https://school.programmers.co.kr/learn/courses/30/lessons/64065?language=javascript
+function solution(s) {
+    // "{{}, {}}" => "[[], []]" 이런 문자열로 바꿔 JSON.parse()로 간단히 배열로 변경 가능.
+    let rst = JSON.parse(s.replace(/[{}]/g, match => match === '{' ? '[' : ']'));
+    rst.sort((a,b) => a.length - b.length);
+
+    return rst.reduce((answer, ar) => {
+        answer.push(ar.find(n => !answer.includes(n)))
+        return answer
+    }, [])
+}
+
+// n^2 배열 자르기 https://school.programmers.co.kr/learn/courses/30/lessons/87390
+function solution(n, left, right) {
+    // 풀이시도1. 문제 설명대로 모든 배열 만들어서, 메모리 초과 남(core dumped).
+    // const rst = Array(n).fill(0).map((row, i) => Array(n).fill(n));
+    // rst.forEach((row, r) => {
+    //    for (let c=0; c<n; c++) {
+    //        if (r<=c) row[c] = c+1
+    //        else row[c] = r+1
+    //    } 
+    // });
+    // return rst.flat().slice(left, right+1);
+    
+    
+    // 풀이시도2. - 1문제 실패나고, 몇문제 시간초과 남.
+//     const rst = []
+//     let row = null;
+//     for (let r=1; r<=n; r++) {
+//         for (let c=1; c<=n; c++) {
+//             if ((r-1)*n + c <= left) continue
+//             if ((r-1)*n + c > right+1) return rst
+            
+//             if (r<=c) rst.push(c)
+//             else rst.push(r)
+//        } 
+//     };
+    
+    
+    // 풀이 성공.
+    const rst = []   
+    for (let i=left; i<=right; i++) {
+        // if (i/n >= i%n) rst.push(~~(i/n)+1)
+        // else rst.push(i%n+1)
+        // 위 if else 문은 아래 처럼 단축 코딩으로 대체 가능.
+        rst.push(Math.max(~~(i/n), i%n)+1)
+    }
+
+    return rst
+}
