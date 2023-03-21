@@ -175,3 +175,31 @@ function solution(n, left, right) {
 
     return rst
 }
+
+// 연속 부분 수열 합의 개수 https://school.programmers.co.kr/learn/courses/30/lessons/131701
+function solution(elements) {
+    // 방식1. 내가 첨에 푼방식
+//     elements = elements.concat(elements)
+//     const s = new Set()
+//     for (let i=0; i<elements.length/2; i++) {
+//         for (let j=1; j<=elements.length/2; j++) {
+//             s.add(elements.slice(i, i+j).reduce((sum, n) => sum + n, 0))
+//         }
+//     }
+    
+//     return s.size;
+    
+    // 방식2. 타인의 성능이 더 좋은 코드
+    const circular = [...elements, ...elements]
+    const s = new Set();
+    let sum = 0;
+    for (let i=0; i<elements.length; i++) {
+        sum = 0;
+        for (let j=0; j<elements.length; j++) {
+            sum += circular[i+j]
+            s.add(sum)
+        }
+    }
+    
+    return s.size;
+}
