@@ -55,25 +55,35 @@ console.log(validAnagram('qwerty', 'qeywrt')) // true
 console.log(validAnagram('texttwisttime', 'timetwisttext')) // trueae
 
 // 다중 포인터 패턴 = multiple pointers pattern
-// 고유 값 종류 세기
+// 고유 값 종류 세기 - 정렬된 배열에서만 가능한 코드
 function countUniqueValues(arr) {
   if (arr.length === 0) return 0;
 
-  let cnt = 0;
-  for (let i=0; i<arr.length; i++) {
-    // console.log('a', arr[i])
-    for (let j=i+1; j<arr.length; j++) {
-      if(arr[i] === arr[j]) {
-        // console.log('b', arr[j])
-        continue
-      }
-      cnt++
-      i = j-1
-      break;
-    }
+  // 방식1 : 내가 푼 버전 - 중첩 루프라 O(n^2)처럼 보이지만 사실 O(n)이다.
+  // let cnt = 0;
+  // for (let i=0; i<arr.length; i++) {
+  //   // console.log('a', arr[i])
+  //   for (let j=i+1; j<arr.length; j++) {
+  //     if(arr[i] === arr[j]) {
+  //       // console.log('b', arr[j])
+  //       continue
+  //     }
+  //     cnt++
+  //     i = j-1
+  //     break;
+  //   }
 
+  // }
+  // return ++cnt
+
+  // 방식2 : 리팩토링 버전 - O(n)
+  let i = 0
+  for (let j=1; j<arr.length; j++) {
+    if (arr[i] !== arr[j])
+      arr[++i] = arr[j]
   }
-  return ++cnt
+
+  return i+1
 }
 
 console.log(countUniqueValues([1,1,1,1,1,2])) // 2
