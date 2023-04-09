@@ -29,6 +29,22 @@ console.log(min(2, 5, 1));
 console.log(min(6, 5, 11));
 console.log(min(6, 5, 3));
 
+// 2. 삼각형 판별
+function isTriangle(a, b, c) {
+  // let max = Math.max(a,b,c)
+  let max = 0;
+  if (a > b) max = a
+  else max = b
+  if (c > max) max = c
+
+  let otherSum = a + b + c - max
+  
+  return max < otherSum
+}
+console.log(isTriangle(13, 33, 17)); // f
+console.log(isTriangle(6,7,11)); // t
+console.log(isTriangle(6,7,13)); // f
+
 // 6강. 홀수
 rst = ((arr) => {
   let sum = 0,
