@@ -390,27 +390,48 @@ Time Complexity - O(n)
 */
 function findLongestSubstring(str){
   // add whatever parameters you deem necessary - good luck!
-  let maxLen = -Infinity
-  let start = 0
-  let end = 0
-  let arr = []
-  let idx = -1
-  while (end < str.length) {
-    idx = arr.indexOf(str[end])
-    if (idx === -1 && end === str.length - 1) {
-      arr.push(str[end++])
-      maxLen = Math.max(maxLen, arr.length)
-    } else if (idx >= -1) {
-      maxLen = Math.max(maxLen, arr.length)
-      start = idx
-      arr.splice(0, start + 1)
+
+  // 1방식 : 내가 처음 푼 방식
+  // let maxLen = -Infinity
+  // let start = 0
+  // let end = 0
+  // let arr = []
+  // let idx = -1
+  // while (end < str.length) {
+  //   idx = arr.indexOf(str[end])
+  //   if (idx === -1 && end === str.length - 1) {
+  //     arr.push(str[end++])
+  //     maxLen = Math.max(maxLen, arr.length)
+  //   } else if (idx >= -1) {
+  //     maxLen = Math.max(maxLen, arr.length)
+  //     start = idx
+  //     arr.splice(0, start + 1)
+  //   }
+  //   arr.push(str[end++])
+  // }
+
+  // return maxLen === -Infinity ? str.length : maxLen;
+
+
+  // 2방식:
+  let maxLen = 0;
+  let start = 0;
+  let seen = {}
+  let char = ''
+  for (let end=0; end<str.length; end++) {
+    char = str[end]
+    if (seen[char]) {
+      start = Math.max(start, seen[char])
     }
-    arr.push(str[end++])
+
+    maxLen = Math.max(maxLen, end - start + 1)
+    seen[char] = end+1
   }
 
-  return maxLen === -Infinity ? str.length : maxLen;
+  return maxLen;
 }
 
+console.log(findLongestSubstring('ababcdabc')) // 4
 console.log(findLongestSubstring('')) // 0
 console.log(findLongestSubstring('rithmschool')) // 7
 console.log(findLongestSubstring('thisisawesome')) // 6
