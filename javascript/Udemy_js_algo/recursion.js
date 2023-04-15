@@ -85,10 +85,10 @@ Write a recursive function called isPalindrome which returns true if the string 
 function isPalindrome(str){
   // add whatever parameters you deem necessary - good luck!
   if (str.length === 1) return true
-  if (str.length % 2 === 0) return false
   if (str[0] !== str[str.length-1]) return false
   
-  return isPalindrome(str.split("").slice(1, str.length-1).join(""))
+  // return isPalindrome(str.slice(1, str.length-1))
+  return isPalindrome(str.slice(1, -1))
 }
 
 /* 
@@ -134,3 +134,19 @@ function flatten(arr){
 // flatten([1, [2, [3, 4], [[5]]]]) // [1, 2, 3, 4, 5]
 // flatten([[1],[2],[3]]) // [1,2,3]
 // flatten([[[[1], [[[2]]], [[[[[[[3]]]]]]]]]]) // [1,2,3
+
+
+/* 
+capitalizeFirst
+ - https://coupang.udemy.com/course/best-javascript-data-structures/learn/quiz/5338829#learning-tools
+Write a recursive function called capitalizeFirst. Given an array of strings, capitalize the first letter of each string in the array.
+*/
+function capitalizeFirst (strArr) {
+  // add whatever parameters you deem necessary - good luck!
+  return strArr.map(str => {
+    str = str[0].toUpperCase() + str.slice(1)
+    return str
+  })
+}
+
+console.log(capitalizeFirst(['car','taco','banana'])); // ['Car','Taco','Banana']
