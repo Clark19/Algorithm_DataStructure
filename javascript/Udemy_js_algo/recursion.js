@@ -148,5 +148,107 @@ function capitalizeFirst (strArr) {
     return str
   })
 }
-
 console.log(capitalizeFirst(['car','taco','banana'])); // ['Car','Taco','Banana']
+
+
+/* nestedEvenSum
+ - https://coupang.udemy.com/course/best-javascript-data-structures/learn/quiz/5338831#learning-tools
+Write a recursive function called nestedEvenSum. Return the sum of all even numbers in an object which may contain nested objects.
+*/
+function nestedEvenSum (obj) {
+  // add whatever parameters you deem necessary - good luck!
+  let sum = 0
+  for (const [k,v] of Object.entries(obj)) {
+      if (Number.isInteger(v) && v%2 === 0)
+        sum += v
+      else if (typeof(v) === 'object')
+        sum += nestedEvenSum(v)
+  }
+  
+  return sum
+}
+var obj1 = {
+  outer: 2,
+  obj: {
+    inner: 2,
+    otherObj: {
+      superInner: 2,
+      notANumber: true,
+      alsoNotANumber: "yup"
+    }
+  }
+}
+
+var obj2 = {
+  a: 2,
+  b: {b: 2, bb: {b: 3, bb: {b: 2}}},
+  c: {c: {c: 2}, cc: 'ball', ccc: 5},
+  d: 1,
+  e: {e: {e: 2}, ee: 'car'}
+};
+
+nestedEvenSum(obj1); // 6
+nestedEvenSum(obj2); // 10
+
+
+/* 
+capitalizeWords
+ - https://coupang.udemy.com/course/best-javascript-data-structures/learn/quiz/5338833#learning-tools
+Write a recursive function called capitalizeWords. Given an array of words, return a new array containing each word capitalized.
+*/
+function capitalizeWords (arr) {
+ // return arr.map(el => el.toUpperCase())
+  if (arr.length == 1) return [arr[0].toUpperCase()]
+
+  let rst = capitalizeWords(arr.slice(0, -1))
+  rst.push(arr.slice(arr.length-1)[0].toUpperCase())
+  return rst
+}
+console.log(capitalizeWords(['i', 'am', 'learning', 'recursion'])); // ['I', 'AM', 'LEARNING', 'RECURSION']
+
+
+/* 
+stringifyNumbers
+ - https://coupang.udemy.com/course/best-javascript-data-structures/learn/quiz/5338835#learning-tools
+Write a function called stringifyNumbers which takes in an object and finds all of the values which are numbers and converts them to strings. Recursion would be a great way to solve this!
+*/
+function stringifyNumbers(obj) {
+  const newObj = {};
+  for (const [k,v] of Object.entries(obj)) {
+      if (Number.isInteger(v))
+        newObj[k] = v.toString()
+      else if (typeof(v) === 'object' && !Array.isArray(v))
+        newObj[k] = stringifyNumbers(v)
+      else
+        newObj[k] = v
+  }
+  
+  // console.log(newObj)
+  return newObj
+}
+
+let obj = {
+    num: 1,
+    test: [],
+    data: {
+        val: 4,
+        info: {
+            isRight: true,
+            random: 66
+        }
+    }
+}
+console.log(stringifyNumbers(obj))
+/*
+{
+  num: "1",
+  test: [],
+  data: {
+      val: "4",
+      info: {
+          isRight: true,
+          random: "66"
+      }
+  }
+}
+*/
