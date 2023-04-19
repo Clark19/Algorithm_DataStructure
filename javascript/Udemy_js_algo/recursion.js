@@ -252,3 +252,34 @@ console.log(stringifyNumbers(obj))
   }
 }
 */
+
+/* 
+collectStrings
+ - https://coupang.udemy.com/course/best-javascript-data-structures/learn/quiz/5338837#learning-tools
+Write a function called collectStrings which accepts an object and returns an array of all the values in the object that have a typeof string
+*/
+const obj2 = {
+  stuff: "foo",
+  data: {
+      val: {
+          thing: {
+              info: "bar",
+              moreInfo: {
+                  evenMoreInfo: {
+                      weMadeIt: "baz"
+                  }
+              }
+          }
+      }
+  }
+}
+function collectStrings(obj) {
+  let rst = []
+  for (const [k,v] of Object.entries(obj)) {
+      if (typeof(v) === 'string') rst.push(v)
+      else if (typeof(v) === 'object') rst = [...rst, ...collectStrings(v)]
+      // else rst = rst.concat(collectStrings(v))
+  }
+  return rst
+}
+console.log(collectStrings(obj2)) // ["foo", "bar", "baz"])
