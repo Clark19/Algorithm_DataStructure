@@ -60,3 +60,19 @@ console.log(binarySearch([
   5, 6, 10, 13, 14, 18, 30, 34, 35, 37, 
   40, 44, 64, 79, 84, 86, 95, 96, 98, 99
 ], 100)) // -1
+
+
+/* 나이브 문자열 검색 
+ - https://coupang.udemy.com/course/best-javascript-data-structures/learn/lecture/28560139#overview
+*/
+function searchNaiveStr(str, target) {
+  let cnt = 0
+  for (let i=0; i<str.length; i++) {
+    for (let j=0; j<target.length; j++) {
+      if (str[i+j] !== target[j]) break
+      if (j === target.length-1) cnt++
+    }
+  }
+
+  return cnt
+}
